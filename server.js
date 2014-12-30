@@ -1,6 +1,7 @@
 var express = require('express')
 var app = express()
 var MongoClient = require('mongodb').MongoClient
+var mongoose = require('mongoose')
 var assert = require('assert')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
@@ -8,11 +9,31 @@ var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var session = require('express-session')
 
+mongoose.connect('mongodb://localhost:27017/myproject');
+
 var url = 'mongodb://localhost:27017/myproject';
 
 
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
-
+var Qualifications = new Schema({ 
+  qualification: { 
+    level     : String, 
+    subjects  :[ Array ] 
+  } 
+});
+var staffMember = new Schema({ 
+    dbStaffID : ObjectId,
+    staffID   : String, 
+    firstname : String, 
+    surname   : String, 
+    dob       : Date, 
+    team      : String, 
+    department: String, 
+    image     : String, 
+    qualifications:[Qualifications] 
+});
 
 
 app.use(express.static(__dirname));
@@ -117,3 +138,37 @@ var server = app.listen(3000, function () {
   var port = server.address().port
   console.log('Example app listening at http://%s:%s', host, port)
 })
+
+
+
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+ 
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  process.nextTick(function() {
+    var collection = db.collection('staff');
+    collection.find({
+      'staffID': "0",
+    }, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+ 
+      if (!user) {
+        return done(null, false);
+      }
+ 
+      if (user.password != password) {
+        return done(null, false);
+      }
+ 
+      return done(null, user);
+    });
+  });
+}));
