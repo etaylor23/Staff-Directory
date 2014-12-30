@@ -1,0 +1,17 @@
+{
+  "name": "AngularStaffDirectory",
+  "version": "0.0.0",
+  "description": "Test application for staff directory",
+  "main": "server.js",
+  "scripts": {
+    "test": "testStaffDirectory"
+  },
+  "author": "Ellis Taylor",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.10.2",
+    "path": "^0.4.9",
+    "mongodb": "~2.0",
+    "angular-route": "~1.3.0"
+  }
+}

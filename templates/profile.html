@@ -1,0 +1,43 @@
+<div>
+	<div class='image'><img src='{{staff.image}}' /></div>
+	<div>Department: {{staff.department}}</div>
+	<div>Team: 
+	<select>
+		<option>{{staff.team}}</option>
+		<option>Construction</option>
+	</select>
+	</div>
+	<div ng-hide="staff.qualifications">
+		<input type='text' placeholder='Enter your first qualification' />
+	</div>
+	<div ng-show="staff.qualifications" ng-controller='editQualifications'>
+		<div>
+			<table>
+				<thead>
+					<th>Level</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat='(attribute, value) in staff.qualifications'>
+						<td>{{value.qualification.level}}</td>
+						<td ng-repeat='(subjectAttribute, subjectValue) in value.qualification.subjects'>{{subjectValue}}
+							<form ng-submit='remove($event,$index,projects)' ng-controller='editQualifications'>
+								<input type='submit' value='Remove' ng-init="removalRow = attribute"/>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<form ng-submit='submit()'>
+				<input type='text' placeholder='{{staff.firstname}}s new qualification' ng-model='newQual'>
+				<span ng-bind='newQual'></span>
+				<input type='submit' value='Add qualification' />
+				<select ng-model="qualType">
+					<option ng-repeat='(attribute, value) in staff.qualifications' value="{{attribute}}">{{value.qualification.level}}</option>
+				</select>
+				<span ng-bind="qualType"></span>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+<div class="profile-view">
+	<div class='image'><img src='{{staff.image}}' /></div>
+	<div>Department: {{staff.department}}</div>
+	<div>Team: 
+	<select>
+		<option>{{staff.team}}</option>
+		<option>Construction</option>
+	</select>
+	</div>
+	<div ng-hide="staff.qualifications">
+		<input type='text' placeholder='Enter your first qualification' />
+	</div>
+	<div ng-show="staff.qualifications">
+		<div>
+			<table>
+				<thead>
+					<th>Level</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat='(attribute, value) in staff.qualifications'>
+						<td>{{value.qualification.level}}</td>
+						<td ng-repeat='(subjectAttribute, subjectValue) in value.qualification.subjects'>{{subjectValue}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<!--<form ng-submit='addQualification()'>
+				<input type='text' placeholder='{{staff.firstname}}s new qualification' ng-model='newQual'>
+				<select ng-model="qualType">
+					<option ng-repeat='(attribute, value) in staff.qualifications' value="{{value.qualification.level}}">{{value.qualification.level}}</option>
+				</select>
+				<input type='submit' value='Add qualification' />
+				<span ng-bind='newQual'></span>
+			</form>-->
+			<form ng-submit='submit()'>
+				<input type='text' placeholder='{{staff.firstname}}s new qualification' ng-model='newQual'>
+				<select ng-model="qualType">
+					<option ng-repeat='(attribute, value) in staff.qualifications' value="{{attribute}}">{{value.qualification.level}}</option>
+				</select>
+				<input type='submit' value='Add qualification' />
+				<span ng-bind='newQual'></span>
+			</form>
+		</div>
+	</div>
+	<div ng-click="close()">Close profile</div>
+</div>
