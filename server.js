@@ -62,14 +62,24 @@ app.use(function(req,res) {
       console.log("ID Found");
       console.log(user._id);
       console.log(staff.qualifications[0].level)
-      var update = { firstname:"Chloe" };
-      staff.update({firstname: "Ellis"}, {$set:update}, {upsert:true},function(err, updateUser) {       
+      //var update = { firstname:"Chloe" };
+      /*staff.update({firstname: "Ellis"}, {$set:update}, {upsert:true},function(err, updateUser) {       
         if(updateUser) {
           console.log("Updated level successfully");
         } else {
           console.log("Error: " + err);
         }
-      });
+      });*/
+      user.firstname = "Ellis";
+      user.qualifications[0].level = "Another level ;)";
+      user.qualifications[0].subjects = ["One","Two"];
+      user.save(function(err) {
+        if(!err) {
+          console.log("Updated")
+        } else {
+          console.log(err);
+        }
+      })
     } else {
       console.log("ID Not Found")
       console.log(err);
