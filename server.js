@@ -9,7 +9,6 @@ var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var session = require('express-session')
 
-mongoose.connect('mongodb://localhost:27017/myproject');
 
 var url = 'mongodb://localhost:27017/myproject';
 
@@ -18,13 +17,10 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var Qualifications = new Schema({ 
-  qualification: { 
     level     : String, 
-    subjects  :[ Array ] 
-  } 
+    subjects  : {} 
 });
 var staffMember = new Schema({ 
-    dbStaffID : ObjectId,
     staffID   : String, 
     firstname : String, 
     surname   : String, 
@@ -34,6 +30,108 @@ var staffMember = new Schema({
     image     : String, 
     qualifications:[Qualifications] 
 });
+
+
+  var staffMember = mongoose.model('staffmember', staffMember);
+//  var staff = new staffMember();
+  var localStaffMember = mongoose.model('staffmember')
+
+  var qualificationModel = mongoose.model('qualificationModel', Qualifications);
+  var qual = new qualificationModel();
+  var localQual = mongoose.model('qualificationModel')
+
+
+  mongoose.connect('mongodb://localhost:27017/myproject');
+
+
+app.use(function(req,res) {
+
+
+  var staff = new staffMember({ 
+    firstname: "Ellis",
+    qualifications: [
+      { 
+        level:"Trying an update, please work",
+        subjects:["One","Two"] 
+      }
+    ] 
+  });
+
+  localStaffMember.findById("54adacbc73d61e600350e50a", function (err, user) {
+    if(user) {
+      console.log("ID Found");
+      console.log(user._id);
+      console.log(staff.qualifications[0].level)
+      var update = { firstname:"Chloe" };
+      staff.update({firstname: "Ellis"}, {$set:update}, {upsert:true},function(err, updateUser) {       
+        if(updateUser) {
+          console.log("Updated level successfully");
+        } else {
+          console.log("Error: " + err);
+        }
+      });
+    } else {
+      console.log("ID Not Found")
+      console.log(err);
+      staff.save(function(err, staff, numberAffected) {
+        if(!err) {
+          console.log(staff);
+          console.log(numberAffected);
+        } else {
+          console.log(err);
+        }
+      })
+    }
+  });
+
+
+/*
+  var qual = new qualificationModel({ level:"Testing" });
+  qual.save(function(err, qual, numberAffected) {
+    if(!err) {
+      console.log(qual);
+      console.log(numberAffected);
+    } else {
+      console.log(err);
+    }
+  })
+  localQual.find({}, function(err, localQual) {
+    if(!err) {
+      console.log(localQual);
+    } else {
+      console.log(err);
+    }
+  })
+
+
+  staff.qualifications.push({
+    level:"Hmmm"    
+  })
+  staff.save(function(err, staff, numberAffected) {
+    if(!err) {
+      console.log(staff);
+      console.log(numberAffected);
+    } else {
+      console.log(err);
+    }
+  })
+
+  localStaffMember.find({}, function(err, staff) {
+    if(!err) {
+      console.log(staff);
+    } else {
+      console.log(err);
+    }
+  })
+*/
+
+
+
+
+
+})
+
+
 
 
 app.use(express.static(__dirname));
@@ -137,6 +235,8 @@ var server = app.listen(3000, function () {
   var host = server.address().address
   var port = server.address().port
   console.log('Example app listening at http://%s:%s', host, port)
+
+
 })
 
 
