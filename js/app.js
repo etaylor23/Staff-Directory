@@ -110,7 +110,7 @@
 		$scope.profile = false;
 		//$scope.staffDirectory = staffDirectory;
 
-		$http.get('/getNames').
+		$http.get('/names').
 		  success(function(data, status, headers, config) {
 		    // this callback will be called asynchronously
 		    // when the response is available
@@ -126,8 +126,8 @@
 
 
 
-	app.controller("showProfile", ['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location) {
-
+	app.controller("showProfile", ['$scope','$http','$routeParams','$location','$filter', function($scope, $http, $routeParams, $location, $filter) {
+/*
 		$http.post('/getStaffData', {msg:$routeParams.staffID}).
 			success(function(data, status, headers, config) {
 				console.log(data);
@@ -138,7 +138,16 @@
 			error(function() {
 				console.log("Lose");
 			});
+*/
 
+		$http.post('/staffData', {msg:$routeParams._id}).
+			success(function(data, status, headers, config) {
+				console.log("Win");
+				$scope.staff = data;
+			}).
+			error(function() {
+				console.log("Lose");
+			});
         $scope.submit = function() {
         	//when submit is called
         	console.log($scope.newQual);
@@ -171,18 +180,24 @@
 
         $scope.addQualification = function() {
         	console.log("About to add qualification");
-        	console.log($scope.newQual);
+        	console.log($scope.newQual)
         	console.log($scope.qualType);
         	if ($scope.newQual!=="") {
-        		var qualificationData = {'staffID':$routeParams.staffID,'data':$scope.newQual,'level':$scope.qualType,"id":$scope.staff._id};
+        		var qualificationData = {'qualificationName':$scope.newQual, "id":$scope.staff._id, 'qualificationLevel':$scope.qualType};
 				$http.put('/addQualification/'+ $scope.newQual, qualificationData).
 					success(function(data, status, headers, config) {
 						console.log(data);
+        				console.log($scope);
+        				//console.log($scope.staff.qualifications[0].qualification.name.push(newQual));
+        				var modelQual = $filter('filter')($scope.staff.qualifications, {_id: $scope.qualType})[0];
+        				modelQual.qualification.name.push($scope.newQual);
+        				console.log(modelQual);
 					}).
 					error(function() {
 						console.log("Lose");
 					});
         	}
+
         }
 
 	}]);
@@ -195,7 +210,7 @@
 	app.config(['$routeProvider',
 	  function($routeProvider) {
 	    $routeProvider.
-	      when('/staff/:staffID', {
+	      when('/staff/:_id', {
 	      	//put /qualifications after staffID and try and pull it back into the controller
 	        templateUrl: 'partials/profile.html',
 	        controller: 'showProfile'

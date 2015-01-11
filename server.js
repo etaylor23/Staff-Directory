@@ -16,10 +16,15 @@ var url = 'mongodb://localhost:27017/myproject';
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
-var Qualifications = new Schema({ 
-    level     : String, 
-    subjects  : {} 
-});
+
+var Qualifications = new Schema(
+    {
+      qualification: {
+        level:String,
+        name : Array
+      }
+    }
+);
 var staffMember = new Schema({ 
     staffID   : String, 
     firstname : String, 
@@ -28,22 +33,58 @@ var staffMember = new Schema({
     team      : String, 
     department: String, 
     image     : String, 
-    qualifications:[Qualifications] 
+    qualifications: [Qualifications] 
 });
 
+mongoose.connect('mongodb://localhost:27017/myproject');
 
+var staffMember = mongoose.model('staffmember', staffMember);
+var staffModel = mongoose.model('staffmember')
+
+var staff = new staffMember({
+  firstname : "Ellis",
+  surname   : "Taylor",
+  dob       : Date.now(),
+  team      : "Web Development Team",
+  department: "Marketing and Communications",
+  image     : "files/ellis.jpg",
+  qualifications: [
+    {
+      qualification: {
+        level:"GCSE",
+        name :[]
+      }
+    },
+    {
+      qualification: {
+        level:"A Level",
+        name :["Advanced English","Advanced Maths","Advanced Science"]
+      }
+    }
+  ] 
+});
+
+staff.save(function(err,staff) {
+  if(staff) {
+    console.log("Save successful");
+  } else {
+    console.log(err);
+  }
+})
+
+
+/*
   var staffMember = mongoose.model('staffmember', staffMember);
-//  var staff = new staffMember();
+  var staff = new staffMember();
   var localStaffMember = mongoose.model('staffmember')
 
   var qualificationModel = mongoose.model('qualificationModel', Qualifications);
   var qual = new qualificationModel();
   var localQual = mongoose.model('qualificationModel')
+*/
 
 
-  mongoose.connect('mongodb://localhost:27017/myproject');
-
-
+/*
 app.use(function(req,res) {
 
 
@@ -69,7 +110,7 @@ app.use(function(req,res) {
         } else {
           console.log("Error: " + err);
         }
-      });*/
+      });
       user.firstname = "Ellis";
       user.qualifications[0].level = "Another level ;)";
       user.qualifications[0].subjects = ["One","Two"];
@@ -95,7 +136,7 @@ app.use(function(req,res) {
   });
 
 
-/*
+
   var qual = new qualificationModel({ level:"Testing" });
   qual.save(function(err, qual, numberAffected) {
     if(!err) {
@@ -133,14 +174,8 @@ app.use(function(req,res) {
       console.log(err);
     }
   })
-*/
-
-
-
-
-
 })
-
+*/
 
 
 
@@ -152,7 +187,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
+/*
 app.get('/getNames', function (req, res) {
 
   var getNames = function(db, callback) {
@@ -197,9 +232,9 @@ app.post('/getStaffData',jsonParser, function(req, res) {
   })
 
 })
-
-app.put('/addQualification/:newQual',jsonParser, function(req, res) {
-  /*var id = req.body.id;
+*/
+/*app.put('/addQualification/:newQual',jsonParser, function(req, res) {
+  var id = req.body.id;
   var newQualificationStaffID = req.body.staffID;
   var newQualificationLevel = req.body.level;
   var newQualificationData = req.body.data;
@@ -237,9 +272,117 @@ app.put('/addQualification/:newQual',jsonParser, function(req, res) {
     addNewQualfication(db, function(test) {
       console.log("Add new qual ran");
     })
-  })*/
+  })
   res.end("This function hasn't been finished due to complex mongo procedures, extra research needs doing on embedded mongo documents and how to save updates");
+});*/
+
+app.put('/addQualification/:newQual',jsonParser, function(req, res) {
+  var id = req.body.id;
+  var level = req.body.qualificationLevel;
+  var qualName = req.body.qualificationName;
+  console.log(id + " " + level + " " + qualName )
+/*
+  staff.update(
+    {
+      _id:id,
+      qualifications:[
+        { qualification: 
+          { level:"GCSE" } 
+        } 
+      ] 
+    }, 
+    { $set:
+      { 
+        qualifications: [ 
+          { qualification:
+            { name:"This is something new"} 
+          } 
+        ] 
+      }
+    }, function(err, updateUser) {       
+    if(updateUser) {
+      console.log("Updated level successfully");
+    } else {
+      console.log("Error: " + err);
+    }
+  })
+*/
+
+
+/*
+  staff.update({
+      firstname:qualName
+    }, 
+    { 
+      _id:"54b11b49a85e87af09ddc7d8",
+      qualifications:[{
+        _id:"54b11b49a85e87af09ddc7d9"
+      }]
+    }, function(err, updateUser) {       
+    if(updateUser) {
+      console.log("Updated level successfully");
+    } else {
+      console.log("Error: " + err);
+    }
+  })
+*/
+
+  staffMember.update(
+    {
+      "qualifications._id": level
+    },
+    { $push: { "qualifications.$.qualification.name" : qualName } },
+    function(err,proceed) {
+        /*console.log("Outside proceed ran")
+        console.log(proceed.qualifications[0].qualification.name);
+        proceed.qualifications[0].qualification.name.push("New");
+        console.log(proceed.qualifications[0].qualification.name);
+        //proceed.firstname = "Ellis The Legend"
+        proceed.save(function(newErr,newWin) {
+          if (newWin) {
+            console.log("It ran yay");
+            console.log(newWin);
+          } else {
+            console.log(newErr);
+          }
+        })*/
+        //console.log(proceed.qualifications[0].qualification.name);
+
+
+      if (proceed) {
+        console.log("It ran yay");
+        console.log(proceed);
+        res.end("Qualification added")
+      } else {
+        console.log("Nope");
+        console.log(err);
+      }
+    }
+  )
+
+})
+
+app.get("/names", function(req,res) {
+  staffModel.find({},{"staffID":true,"firstname":true,"surname":true},function(err,staffBasic){
+    if(staffBasic) {
+      res.end(JSON.stringify(staffBasic));
+    } else {
+      console.log(err);
+    }
+  })
 });
+
+app.post("/staffData",jsonParser,function(req,res) {
+  var requestID = req.body.msg;
+  staffModel.findById(requestID, function(err, allDetails) {
+    if (allDetails) {
+      res.end(JSON.stringify(allDetails));
+    } else {
+      console.log(err);
+    }
+  })
+
+})
 
 var server = app.listen(3000, function () {
   var host = server.address().address

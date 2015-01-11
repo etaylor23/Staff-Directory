@@ -38,7 +38,7 @@ body {
 	<ul ng-controller="staff">
 		<li ng-repeat="staff in staffDirectory">
 				<div ng-class="{ active: profile }">
-					<a href="#staff/{{staff.staffID}}">{{staff.firstname}} {{staff.surname}}</a>
+					<a href="#staff/{{staff._id}}">{{staff.firstname}} {{staff.surname}}</a>
 				</div>
 			</div>
 		</li>
