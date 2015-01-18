@@ -1,108 +1,5 @@
 (function(){
 
-
-	staffDirectory = [		
-		{
-			"staffID":"0", 
-			"firstname":"Ellis", 
-			"surname":"Taylor",
-			"dob":"01.02.1991",
-			"team":"Web Development",
-			"department":"Marketing and Communications",
-			"image":"files/ellis.jpg",
-			"qualifications":[
-				{ 
-					"qualification": {
-						"level":"GCSE",
-						"subjects":["Maths","Science"]					
-					}
-				},
-				{
-					"qualification": {
-						"level":"A Level",
-						"subjects":["Advanced Maths","Chemistry","Physics"]						
-					}
-				},
-				{
-					"qualification": {
-						"level":"Undergraduate Degree",
-						"subjects":["Astrophysics"]
-					}
-				}
-			]
-		},
-		{
-			"staffID":"1", 
-			"firstname":"Claudia", 
-			"surname":"Ryman",
-			"dob":"14.05.1996",
-			"team":"Marketing Services",
-			"department":"Marketing and Communications",
-			"image":"files/claudia.jpg",
-			"qualifications":[
-				{ 
-					"qualification": {
-						"level":"GCSE",
-						"subjects":["Maths","Science"]					
-					}
-				},
-				{
-					"qualification": {
-						"level":"A Level",
-						"subjects":["Advanced Maths","Chemistry","Physics"]						
-					}
-				},
-				{
-					"qualification": {
-						"level":"Undergraduate Degree",
-						"subjects":["Astrophysics"]
-					}
-				}
-			]
-		},
-		{
-			"staffID":"2", 
-			"firstname":"Chloe", 
-			"surname":"Taylor",
-			"dob":"22.11.1992",
-			"team":"Construction",
-			"department":"Estates",
-			"image":"files/claudia.jpg",
-			"qualifications":[
-				{ 
-					"qualification": {
-						"level":"GCSE",
-						"subjects":["Maths","Science"]					
-					}
-				},
-				{
-					"qualification": {
-						"level":"A Level",
-						"subjects":["Advanced Maths","Chemistry","Physics"]						
-					}
-				},
-				{
-					"qualification": {
-						"level":"Undergraduate Degree",
-						"subjects":["Astrophysics"]
-					}
-				}
-			]
-		}
-	]
-
-	department = [
-		{
-			"name":"Marketing and Communications",
-			"teams": [
-			
-			]
-		}
-	]
-
-
-
-
 	var app = angular.module("staffDirectory",['ngRoute']);
 	//create new angular module
 
@@ -112,98 +9,64 @@
 
 		$http.get('/names').
 		  success(function(data, status, headers, config) {
-		    // this callback will be called asynchronously
-		    // when the response is available
+		    console.log("Got initial name set for this user");
 		    console.log(data);
 		    $scope.staffDirectory = data;
 
 		  }).
 		  error(function(data, status, headers, config) {
-		    // called asynchronously if an error occurs
-		    // or server returns response with an error status.
+		    console.log("Failed to get initial name set for this user");
 		});
 	}]);
 
 
 
 	app.controller("showProfile", ['$scope','$http','$routeParams','$location','$filter', function($scope, $http, $routeParams, $location, $filter) {
-/*
-		$http.post('/getStaffData', {msg:$routeParams.staffID}).
-			success(function(data, status, headers, config) {
-				console.log(data);
-				var unwrapStaff = data[0];
-				$scope.staff = unwrapStaff;
-
-			}).
-			error(function() {
-				console.log("Lose");
-			});
-*/
 
 		$http.post('/staffData', {msg:$routeParams._id}).
 			success(function(data, status, headers, config) {
-				console.log("Win");
+				console.log("got staffData for this staff member");
 				$scope.staff = data;
 			}).
 			error(function() {
-				console.log("Lose");
+				console.log("failed to get staffData for this staff member");
 			});
-        $scope.submit = function() {
-        	//when submit is called
-        	console.log($scope.newQual);
-        	console.log($scope.qualType);
-            if ($scope.newQual!=="") {
-       	        //if staff entry exists and new qualification value is not empty
-       	        console.log($scope.staff.qualifications[$scope.qualType].qualification.subjects);
-       	        //log out old qualification set
-                $scope.staff.qualifications[$scope.qualType].qualification.subjects.push(this.newQual);
-                //push new qualification into array
-                console.log($scope.staff.qualifications[$scope.qualType].qualification.subjects);
-                //log out new qualification set
-                $scope.newQual = '';
-                //reset new qualification field to empty
-                var data = { name: $scope.staff.qualifications[$scope.qualType].qualification.subjects };
-            	//wrap all object in array
-            	console.log(data);
-          		//log all array values
-			}
-        };
 
-        $scope.remove = function($event,index,array) {
-        	console.log("---- Starting removal ----");
-        	console.log("---- Ending removal ----");
-        };
 
         $scope.close = function() {
         	$location.path('').replace();
         }
 
         $scope.addQualification = function() {
-        	console.log("About to add qualification");
-        	console.log($scope.newQual)
-        	console.log($scope.qualType);
-        	if ($scope.newQual!=="") {
-        		var qualificationData = {'qualificationName':$scope.newQual, "id":$scope.staff._id, 'qualificationLevel':$scope.qualType};
-				$http.put('/addQualification/'+ $scope.newQual, qualificationData).
+
+        	console.log($scope.qualificationName)
+        	console.log($scope.qualificationLevelID);
+
+        	if ($scope.qualificationName!=="") {
+        		var qualificationData = {'qualificationName':$scope.qualificationName, "id":$scope.staff._id, 'qualificationLevelID':$scope.qualificationLevelID, add:true};
+				$http.put('/addQualification/'+ $scope.qualificationName, qualificationData).
 					success(function(data, status, headers, config) {
 						console.log(data);
-        				console.log($scope);
-        				//console.log($scope.staff.qualifications[0].qualification.name.push(newQual));
-        				var modelQual = $filter('filter')($scope.staff.qualifications, {_id: $scope.qualType})[0];
-        				modelQual.qualification.name.push($scope.newQual);
-        				console.log(modelQual);
+        				var modelQual = $filter('filter')($scope.staff.qualifications, {_id: $scope.qualificationLevelID})[0];
+        				modelQual.qualification.name.push($scope.qualificationName);
+        				console.log("addQualification completed");
 					}).
 					error(function() {
-						console.log("Lose");
+						console.log("addQualification failed to complete");
 					});
         	}
 
         }
 
-	}]);
+        $scope.removeQualification = function(qualificationLevelID,qualificationName,idx) {
+        	//could still pass $event,index,array like old remove function
+        	console.log(qualificationLevelID);
+        	console.log(qualificationName);
+        	var removedQualification = $filter('filter')($scope.staff.qualifications,{_id: qualificationLevelID})[0].qualification.name
+        	removedQualification.splice(idx,1);
 
-	app.controller("newQualification", ['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location) {
-		alert("Test");
+        }
+
 	}]);
 
 
