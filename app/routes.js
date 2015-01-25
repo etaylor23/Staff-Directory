@@ -136,8 +136,10 @@ module.exports = function(app, passport) {
     })
 
     app.get("/names", function(req,res) {
-      staffModel.find({},{"staffID":true,"firstname":true,"surname":true},function(err,staffBasic){
+
+      userModel.find({},{"details.firstname":true,"details.surname":true},function(err,staffBasic){
         if(staffBasic) {
+                    console.log(staffBasic);
           res.end(JSON.stringify(staffBasic));
         } else {
           console.log(err);

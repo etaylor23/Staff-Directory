@@ -3,6 +3,15 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
+var Qualifications = mongoose.Schema(
+    {
+      qualification: {
+        level:String,
+        name : Array
+      }
+    }
+);
+
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
@@ -27,6 +36,16 @@ var userSchema = mongoose.Schema({
         token        : String,
         email        : String,
         name         : String
+    },
+    details          : {
+        firstname : String, 
+        surname   : String, 
+        dob       : Date, 
+        team      : String, 
+        department: String, 
+        image     : String,
+        permissions: String,
+        qualifications: [Qualifications] 
     }
 
 });
