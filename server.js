@@ -47,12 +47,6 @@ var staff = new staffMember({
   qualifications: [
     {
       qualification: {
-        level:"GCSE",
-        name :[]
-      }
-    },
-    {
-      qualification: {
         level:"A Level",
         name :["Advanced English","Advanced Maths","Advanced Science"]
       }

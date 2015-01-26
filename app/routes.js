@@ -115,11 +115,11 @@ module.exports = function(app, passport) {
       var level = req.body.qualificationLevelID;
       var qualName = req.body.qualificationName;
       console.log(id + " " + level + " " + qualName )
-      staffMember.update(
+      User.update(
         {
-          "qualifications._id": level
+          "details.qualifications._id": level
         },
-        { $push: { "qualifications.$.qualification.name" : qualName } },
+        { $push: { "details.qualifications.$.qualification.name" : qualName } },
         function(err,proceed) {
 
           if (proceed) {
@@ -132,6 +132,7 @@ module.exports = function(app, passport) {
           }
         }
       )
+      /* This doesnt update */
 
     })
 
@@ -139,7 +140,6 @@ module.exports = function(app, passport) {
 
       userModel.find({},{"details.firstname":true,"details.surname":true},function(err,staffBasic){
         if(staffBasic) {
-                    console.log(staffBasic);
           res.end(JSON.stringify(staffBasic));
         } else {
           console.log(err);
@@ -148,8 +148,10 @@ module.exports = function(app, passport) {
     });
 
     app.post("/staffData",function(req,res) {
+
       var requestID = req.body.msg;
-      staffModel.findById(requestID, function(err, allDetails) {
+
+      userModel.findById(requestID, function(err, allDetails) {
         if (allDetails) {
           res.end(JSON.stringify(allDetails));
         } else {

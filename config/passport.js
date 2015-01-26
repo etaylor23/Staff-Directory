@@ -62,7 +62,7 @@ module.exports = function(passport) {
                 var newUser            = new User();
 
                 // set the user's local credentials
-                newUser.local.email    = email;
+                /*newUser.local.email    = email;
                 newUser.local.password = newUser.generateHash(password);
                 newUser.details.firstname = req.body.firstname;
                 newUser.details.surname = req.body.surname;
@@ -70,7 +70,48 @@ module.exports = function(passport) {
                 newUser.details.team = req.body.team;
                 newUser.details.department = req.body.department;
                 newUser.details.permissions = req.body.permissions;
-                newUser.details.image = req.body.image;
+                newUser.details.image = req.body.image;*/
+
+                var newUser = new User({
+                  local: {
+                    email                 : email,
+                    password              : newUser.generateHash(password)
+                  },
+                  details: {
+                    firstname             : req.body.firstname,
+                    surname               : req.body.surname,
+                    dob                   : Date.now(),
+                    team                  : req.body.team,
+                    department            : req.body.department,
+                    permissions           : req.body.permissions,
+                    image                 : req.body.image,
+                    qualifications: [
+                        {
+                          qualification: {
+                            level:"A Level",
+                            name :["Advanced English","Advanced Maths","Advanced Science"]
+                          }
+                        }
+                    ] 
+                  }
+                  /*"local.email"           : email,
+                  "local.password"        : newUser.generateHash(password),
+                  "details.firstname"     : req.body.firstname,
+                  "details.surname"       : req.body.surname,
+                  "details.dob"           : Date.now(),
+                  "details.team"          : req.body.team,
+                  "details.department"    : req.body.department,
+                  "details.permissions"   : req.body.permissions,
+                  "details.image"         : req.body.image,
+                  "details.qualifications": [
+                    {
+                      qualification: {
+                        level:"A Level",
+                        name :["Advanced English","Advanced Maths","Advanced Science"]
+                      }
+                    }
+                  ] */
+                });    
 
                 // save the user
                 newUser.save(function(err) {

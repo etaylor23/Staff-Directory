@@ -1,22 +1,22 @@
 <div ng-model="staffDirectory" class="profile-view">
-	<div class='image'><img src='{{staff.image}}' /></div>
-	<div>Department: {{staff.department}}</div>
+	<div class='image'><img src='{{staff.details.image}}' /></div>
+	<div>Department: {{staff.details.department}}</div>
 	<div>Team: 
 	<select>
-		<option>{{staff.team}}</option>
+		<option>{{staff.details.team}}</option>
 		<option>Construction</option>
 	</select>
 	</div>
 	<div ng-hide="staff.qualifications">
 		<input type='text' placeholder='Enter your first qualification' />
 	</div>
-	<div ng-show="staff.qualifications">
-		<div ng-repeat='(key,staff) in staff.qualifications'>
+	<div ng-show="staff.details.qualifications">
+		<div ng-repeat='(key,staff) in staff.details.qualifications'>
 			<h2>{{staff.qualification.level}}</h2>
 			<ul>
 				<li ng-repeat='(staffKey,qualification) in staff.qualification.name'>
 					<span>{{qualification}}</span>
-
+					
 					<span href="#" ng-click="removeQualification($parent.staff._id,qualification,$index)">Remove</span>
 				</li>
 			<ul>
@@ -27,7 +27,7 @@
 				<input type="text" placeholder="New qualification" ng-model='qualificationName' />
 				<div ng-bind="qualificationName"></div>
 				<select ng-model="qualificationLevelID">
-					<option  ng-repeat='(attribute, value) in staff.qualifications' ng-init="attribute" value="{{value._id}}">{{value.qualification.level}} {{attribute}}</option>
+					<option  ng-repeat='(attribute, value) in staff.details.qualifications' ng-init="attribute" value="{{value._id}}">{{value.qualification.level}} {{attribute}}</option>
 				</select>
 				<div ng-bind="qualificationLevelID"></div>
 				<input type="submit" value="Submit">
