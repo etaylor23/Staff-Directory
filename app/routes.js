@@ -104,9 +104,58 @@ module.exports = function(app, passport) {
       password: String
     });
 
+    var Qualifications = mongoose.Schema(
+        {
+          qualification: {
+            level:String,
+            name : Array
+          }
+        }
+    );
+
+    // define the schema for our user model
+    var userSchema = mongoose.Schema({
+
+        local            : {
+            email        : String,
+            password     : String,
+        },
+        facebook         : {
+            id           : String,
+            token        : String,
+            email        : String,
+            name         : String
+        },
+        twitter          : {
+            id           : String,
+            token        : String,
+            displayName  : String,
+            username     : String
+        },
+        google           : {
+            id           : String,
+            token        : String,
+            email        : String,
+            name         : String
+        },
+        details          : {
+            firstname : String, 
+            surname   : String, 
+            dob       : Date, 
+            team      : String, 
+            department: String, 
+            image     : String,
+            permissions: String,
+            qualifications: [Qualifications] 
+        }
+
+    });
+
+    /* This now sort of works but doesnt update the front end, also the schema above needs moving out of routes */
+
     var staffMember = mongoose.model('staffmember', staffMember);
     var staffModel = mongoose.model('staffmember');
-    var User = mongoose.model('user', user);
+    var User = mongoose.model('user', userSchema);
     var userModel = mongoose.model('user');
 
 
@@ -132,7 +181,6 @@ module.exports = function(app, passport) {
           }
         }
       )
-      /* This doesnt update */
 
     })
 

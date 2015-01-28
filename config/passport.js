@@ -60,18 +60,6 @@ module.exports = function(passport) {
                 // if there is no user with that email
                 // create the user
                 var newUser            = new User();
-
-                // set the user's local credentials
-                /*newUser.local.email    = email;
-                newUser.local.password = newUser.generateHash(password);
-                newUser.details.firstname = req.body.firstname;
-                newUser.details.surname = req.body.surname;
-                newUser.details.dob = Date.now();
-                newUser.details.team = req.body.team;
-                newUser.details.department = req.body.department;
-                newUser.details.permissions = req.body.permissions;
-                newUser.details.image = req.body.image;*/
-
                 var newUser = new User({
                   local: {
                     email                 : email,
@@ -94,23 +82,7 @@ module.exports = function(passport) {
                         }
                     ] 
                   }
-                  /*"local.email"           : email,
-                  "local.password"        : newUser.generateHash(password),
-                  "details.firstname"     : req.body.firstname,
-                  "details.surname"       : req.body.surname,
-                  "details.dob"           : Date.now(),
-                  "details.team"          : req.body.team,
-                  "details.department"    : req.body.department,
-                  "details.permissions"   : req.body.permissions,
-                  "details.image"         : req.body.image,
-                  "details.qualifications": [
-                    {
-                      qualification: {
-                        level:"A Level",
-                        name :["Advanced English","Advanced Maths","Advanced Science"]
-                      }
-                    }
-                  ] */
+
                 });    
 
                 // save the user
