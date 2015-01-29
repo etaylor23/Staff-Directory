@@ -159,28 +159,47 @@ module.exports = function(app, passport) {
     var userModel = mongoose.model('user');
 
 
-    app.put('/addQualification/:newQual', function(req, res) {
-      var id = req.body.id;
-      var level = req.body.qualificationLevelID;
-      var qualName = req.body.qualificationName;
-      console.log(id + " " + level + " " + qualName )
-      User.update(
-        {
-          "details.qualifications._id": level
-        },
-        { $push: { "details.qualifications.$.qualification.name" : qualName } },
-        function(err,proceed) {
+    app.put('/editQualification/:newQual', function(req, res) {
+        var id = req.body.id;
+        var level = req.body.qualificationLevelID;
+        var qualName = req.body.qualificationName;
+        var editType = req.body.editType;
 
-          if (proceed) {
-            console.log("It ran yay");
-            console.log(proceed);
-            res.end("Qualification added")
-          } else {
-            console.log("Nope");
-            console.log(err);
-          }
+        console.log("Staff ID:" + id + ", qualification Level ID: " + level + ", Qualification Level Name: " + qualName + ", Add Or Remove? " + editType);
+
+        if(editType === "add") {
+            User.update(
+                {
+                  "details.qualifications._id": level
+                },
+                { $push: { "details.qualifications.$.qualification.name" : qualName } },
+                function(err,proceed) {
+                    if (proceed) {
+                        console.log(proceed);
+                        res.end("Qualification added");
+                    } else {
+                        console.log(err);
+                        console.log("Nope");
+                    }
+                }
+            )
+        } else {
+            User.update(
+                {
+                  "details.qualifications._id": level
+                },
+                { $pull: { "details.qualifications.$.qualification.name" : qualName } },
+                function(err,proceed) {
+                  if (proceed) {
+                    console.log(proceed);
+                    res.end("Qualification removed")
+                  } else {
+                    console.log(err);
+                    console.log("Failed to remove qualification");
+                  }
+                }
+            )
         }
-      )
 
     })
 

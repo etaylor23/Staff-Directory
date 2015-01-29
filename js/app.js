@@ -38,33 +38,41 @@
         }
 
         $scope.addQualification = function() {
-
         	console.log($scope.qualificationName)
         	console.log($scope.qualificationLevelID);
 
         	if ($scope.qualificationName!=="") {
-        		var qualificationData = {'qualificationName':$scope.qualificationName, "id":$scope.staff._id, 'qualificationLevelID':$scope.qualificationLevelID, add:true};
-				$http.put('/addQualification/'+ $scope.qualificationName, qualificationData).
-					success(function(data, status, headers, config) {
-						console.log(data);
-        				var modelQual = $filter('filter')($scope.staff.qualifications, {_id: $scope.qualificationLevelID})[0];
-        				modelQual.qualification.name.push($scope.qualificationName);
-        				console.log("addQualification completed");
-					}).
-					error(function() {
-						console.log("addQualification failed to complete");
-					});
+        		var qualificationData = {'qualificationName':$scope.qualificationName, "id":$scope.staff._id, 'qualificationLevelID':$scope.qualificationLevelID, editType:"add"};
+				$http.put('/editQualification/'+ $scope.qualificationName, qualificationData).
+				success(function(data, status, headers, config) {
+					console.log(data);
+    				var modelQual = $filter('filter')($scope.staff.details.qualifications, {_id: $scope.qualificationLevelID})[0];
+    				modelQual.qualification.name.push($scope.qualificationName);
+    				console.log("addQualification completed");
+				}).
+				error(function() {
+					console.log("addQualification failed to complete");
+				});
         	}
 
         }
 
         $scope.removeQualification = function(qualificationLevelID,qualificationName,idx) {
-        	//could still pass $event,index,array like old remove function
         	console.log(qualificationLevelID);
         	console.log(qualificationName);
-        	var removedQualification = $filter('filter')($scope.staff.qualifications,{_id: qualificationLevelID})[0].qualification.name
-        	removedQualification.splice(idx,1);
 
+    		var qualificationData = {'qualificationName':qualificationName, "id":$scope.staff._id, 'qualificationLevelID':qualificationLevelID, editType:"remove"};
+
+			$http.put('/editQualification/'+ qualificationName, qualificationData).
+			success(function(data, status, headers, config) {
+				console.log(data);
+	        	var removedQualification = $filter('filter')($scope.staff.details.qualifications,{_id: qualificationLevelID})[0].qualification.name
+	        	removedQualification.splice(idx,1);
+				console.log("removeQualification completed");
+			}).
+			error(function() {
+				console.log("removeQualification failed to complete");
+			});
         }
 
 	}]);
