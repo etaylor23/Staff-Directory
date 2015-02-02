@@ -7,7 +7,7 @@
 		<option>Construction</option>
 	</select>
 	</div>
-	<div ng-hide="staff.qualifications">
+	<div ng-hide="staff.details.qualifications">
 		<input type='text' placeholder='Enter your first qualification' />
 	</div>
 	<div ng-show="staff.details.qualifications">
@@ -25,11 +25,24 @@
 		<div class="add-qualification">
 			<form ng-submit='addQualification()'>
 				<input type="text" placeholder="New qualification" ng-model='qualificationName' />
+
 				<div ng-bind="qualificationName"></div>
-				<select ng-model="qualificationLevelID">
+
+				<select ng-model="qualificationLevelID" ng-init>
 					<option  ng-repeat='(attribute, value) in staff.details.qualifications' ng-init="attribute" value="{{value._id}}">{{value.qualification.level}} {{attribute}}</option>
+
 				</select>
-				<div ng-bind="qualificationLevelID"></div>
+
+				<input type="text" ng-model="newQualificationLevel">
+
+				<div ng-hide="newQualificationLevel">
+					<div ng-bind="qualificationLevelID"></div>
+				</div>
+
+				<div ng-show="newQualificationLevel">
+					<div ng-bind="newQualificationLevel"></div>
+				</div>
+
 				<input type="submit" value="Submit">
 			</form>
 		</div>

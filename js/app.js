@@ -40,22 +40,29 @@
         $scope.addQualification = function() {
         	console.log($scope.qualificationName)
         	console.log($scope.qualificationLevelID);
+        	console.log($scope.newQualificationLevel);
 
-        	if ($scope.qualificationName!=="") {
-        		var qualificationData = {'qualificationName':$scope.qualificationName, "id":$scope.staff._id, 'qualificationLevelID':$scope.qualificationLevelID, editType:"add"};
-				$http.put('/editQualification/'+ $scope.qualificationName, qualificationData).
-				success(function(data, status, headers, config) {
-					console.log(data);
-    				var modelQual = $filter('filter')($scope.staff.details.qualifications, {_id: $scope.qualificationLevelID})[0];
-    				modelQual.qualification.name.push($scope.qualificationName);
-    				console.log("addQualification completed");
-				}).
-				error(function() {
-					console.log("addQualification failed to complete");
-				});
+        	if ($scope.newQualificationLevel !== undefined) {
+        		console.log("This will call server to create new qualification type and add new qualification to it");
+        	} else {
+	        	if ($scope.qualificationName!=="") {
+	        		var qualificationData = {'qualificationName':$scope.qualificationName, "id":$scope.staff._id, 'qualificationLevelID':$scope.qualificationLevelID, editType:"add"};
+					$http.put('/editQualification/'+ $scope.qualificationName, qualificationData).
+					success(function(data, status, headers, config) {
+						console.log(data);
+	    				var modelQual = $filter('filter')($scope.staff.details.qualifications, {_id: $scope.qualificationLevelID})[0];
+	    				modelQual.qualification.name.push($scope.qualificationName);
+	    				console.log("addQualification completed");
+					}).
+					error(function() {
+						console.log("addQualification failed to complete");
+					});
+	        	}	
         	}
 
+
         }
+
 
         $scope.removeQualification = function(qualificationLevelID,qualificationName,idx) {
         	console.log(qualificationLevelID);
