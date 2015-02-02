@@ -4,6 +4,8 @@ module.exports = function(app, passport) {
     var mongoose = require('mongoose')
     var user = require('./models/user.js');
     var User = user.model('User');
+    //var Qualification = user.model('Qualification');
+
 
     // =====================================
     // HOME PAGE (with login links) ========
@@ -79,7 +81,6 @@ module.exports = function(app, passport) {
         var id = req.body.id;
         var level = req.body.qualificationLevelID;
         var qualName = req.body.qualificationName;
-        var editType = req.body.editType;
 
         console.log("Staff ID:" + id + ", qualification Level ID: " + level + ", Qualification Level Name: " + qualName + ", Add Or Remove? " + editType);
 
@@ -118,6 +119,53 @@ module.exports = function(app, passport) {
         }
 
     })
+
+    app.post('/editQualification/:newQual', function(req, res) {
+
+        var newLevel = req.body.newLevel;
+        var id = req.body.id;
+
+        //var newQualification = new Qualification()
+/*
+        var newQualification = new Qualification({
+            qualifications: [
+                {
+                  qualification: {
+                    level:"Test Degree",
+                    name :["Advanced English","Advanced Maths","Advanced Science"]
+                  }
+                }
+            ] 
+        })
+
+        console.log(newQualification);*/
+/*
+        User.update(
+            {
+                "_id":id
+            },
+            {
+                qualifications: [
+                    {
+                      qualification: {
+                        level:"Degree test",
+                        name :["Advanced English","Advanced Maths","Advanced Science"]
+                      }
+                    }
+                ]
+            },
+            function(err,proceed) {
+                if(proceed) {
+                    console.log("That worked");
+                } else {
+                    console.log("Not quite right");
+                    console.log(err);
+                }
+            }
+        )
+*/      
+    });
+
 
     app.get("/names", function(req,res) {
         User.find({},{"details.firstname":true,"details.surname":true},function(err,staffBasic){

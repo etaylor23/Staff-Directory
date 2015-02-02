@@ -42,8 +42,16 @@
         	console.log($scope.qualificationLevelID);
         	console.log($scope.newQualificationLevel);
 
-        	if ($scope.newQualificationLevel !== undefined) {
+        	if ($scope.qualificationLevelID === undefined) {
         		console.log("This will call server to create new qualification type and add new qualification to it");
+        		var qualificationData = {'newQualificationLevel':$scope.newQualificationLevel, "qualificationName":$scope.qualificationName, "id":$scope.staff._id}
+        		$http.post('/editQualification/'+$scope.qualificationName, qualificationData).
+        		success(function(data, status, headers, config) {
+        			console.log("newQualificationLevel Yay :)");
+        		}).
+        		error(function() {
+        			console.log("newQualificationLevel Failed");
+        		})
         	} else {
 	        	if ($scope.qualificationName!=="") {
 	        		var qualificationData = {'qualificationName':$scope.qualificationName, "id":$scope.staff._id, 'qualificationLevelID':$scope.qualificationLevelID, editType:"add"};
