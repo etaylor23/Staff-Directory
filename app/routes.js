@@ -2,9 +2,10 @@
 module.exports = function(app, passport) {
 
     var mongoose = require('mongoose')
-    var user = require('./models/user.js');
-    var User = user.model('User');
-    //var Qualification = user.model('Qualification');
+    var models = require('./models/user');
+
+    var Qualification = models.qualification.model('Qualification');
+    var User = models.user.model('User');
 
 
     // =====================================
@@ -81,6 +82,7 @@ module.exports = function(app, passport) {
         var id = req.body.id;
         var level = req.body.qualificationLevelID;
         var qualName = req.body.qualificationName;
+        var editType = req.body.editType;
 
         console.log("Staff ID:" + id + ", qualification Level ID: " + level + ", Qualification Level Name: " + qualName + ", Add Or Remove? " + editType);
 
@@ -122,48 +124,45 @@ module.exports = function(app, passport) {
 
     app.post('/editQualification/:newQual', function(req, res) {
 
-        var newLevel = req.body.newLevel;
+        var newQualificationLevel = req.body.newQualificationLevel;
+        var qualificationName = req.body.qualificationName;
         var id = req.body.id;
 
         //var newQualification = new Qualification()
-/*
-        var newQualification = new Qualification({
-            qualifications: [
-                {
-                  qualification: {
-                    level:"Test Degree",
-                    name :["Advanced English","Advanced Maths","Advanced Science"]
-                  }
-                }
-            ] 
-        })
 
-        console.log(newQualification);*/
-/*
-        User.update(
+        var newQualification = new Qualification(
             {
-                "_id":id
+              qualification: {
+                level:newQualificationLevel,
+                name :[qualificationName]
+              }
+            }
+        )
+
+        //console.log(newQualification.qualification);
+
+        User.findByIdAndUpdate(
+            {
+                _id:id
             },
             {
-                qualifications: [
-                    {
-                      qualification: {
-                        level:"Degree test",
-                        name :["Advanced English","Advanced Maths","Advanced Science"]
-                      }
-                    }
-                ]
+                $push: { "details.qualifications": newQualification }
             },
             function(err,proceed) {
                 if(proceed) {
                     console.log("That worked");
+                    //console.log(proceed.details.qualifications);
+
+                    /***** This isnt quite right *****/
+                    
+                    res.end(JSON.stringify(proceed.details.qualifications));
                 } else {
                     console.log("Not quite right");
                     console.log(err);
                 }
             }
         )
-*/      
+     
     });
 
 

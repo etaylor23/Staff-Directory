@@ -47,7 +47,9 @@
         		var qualificationData = {'newQualificationLevel':$scope.newQualificationLevel, "qualificationName":$scope.qualificationName, "id":$scope.staff._id}
         		$http.post('/editQualification/'+$scope.qualificationName, qualificationData).
         		success(function(data, status, headers, config) {
-        			console.log("newQualificationLevel Yay :)");
+        			/***** This isnt quite right *****/
+        			console.log(data);
+        			$scope.qualificationName = data;
         		}).
         		error(function() {
         			console.log("newQualificationLevel Failed");
@@ -59,6 +61,7 @@
 					success(function(data, status, headers, config) {
 						console.log(data);
 	    				var modelQual = $filter('filter')($scope.staff.details.qualifications, {_id: $scope.qualificationLevelID})[0];
+	    				console.log(modelQual);
 	    				modelQual.qualification.name.push($scope.qualificationName);
 	    				console.log("addQualification completed");
 					}).
