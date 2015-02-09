@@ -150,14 +150,10 @@ module.exports = function(app, passport) {
             },
             function(err,proceed) {
                 if(proceed) {
-                    console.log("That worked");
-                    //console.log(proceed.details.qualifications);
-
-                    /***** This isnt quite right *****/
-                    
-                    res.end(JSON.stringify(proceed.details.qualifications));
+                    console.log("Qualification level added");
+                    res.end(JSON.stringify(proceed.details.qualifications[proceed.details.qualifications.length -1]));
                 } else {
-                    console.log("Not quite right");
+                    console.log("Failed to add qualification level");
                     console.log(err);
                 }
             }
