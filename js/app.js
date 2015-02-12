@@ -98,6 +98,11 @@
 			});
         }
 
+        $scope.removeQualificationLevel = function(idx) {
+        	var removeQualificationLevel = $scope.staff.details.qualifications[idx];
+        	//$http.delete()
+        }
+
 	}]);
 
 

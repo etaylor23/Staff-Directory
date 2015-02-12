@@ -12,7 +12,7 @@
 	</div>
 	<div ng-show="staff.details.qualifications">
 		<div ng-repeat='(key,staff) in staff.details.qualifications'>
-			<h2>{{staff.qualification.level}}</h2>
+			<h2>{{staff.qualification.level}} <span ng-click="removeQualificationLevel($index)">[Remove]</span></h2>
 			<ul>
 				<li ng-repeat='(staffKey,qualification) in staff.qualification.name'>
 					<span>{{qualification}}</span>
