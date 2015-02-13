@@ -1,6 +1,6 @@
 (function(){
 
-	var app = angular.module("staffDirectory",['ngRoute']);
+	var app = angular.module("staffDirectory",['ngRoute','ngCookies']);
 	//create new angular module
 
 	app.controller('staff', ['$scope','$http', function($scope,$http) {
@@ -100,10 +100,25 @@
 
         $scope.removeQualificationLevel = function(idx) {
         	var removeQualificationLevel = $scope.staff.details.qualifications[idx];
-        	//$http.delete()
+
+        	var qualificationData = { "id":$scope.staff._id, "qualificationLevelID":removeQualificationLevel }
+
+        	$http.delete('/editQualification/'+$scope.staff._id+"/"+$scope.staff.details.qualifications[idx]._id).
+        	success(function(data, status, headers, config) {
+        		$scope.staff.details.qualifications = data;
+        	}).
+        	error(function() {
+        		console.log("removeQualificationLevel failed to complete");
+        	})
         }
 
 	}]);
+
+	app.controller("readWrite", [ '$scope','$cookies', function($scope,$cookies) {
+		$scope.setReadWrite = function() {
+			alert("Test");
+		}
+	}])
 
 
 	app.config(['$routeProvider',

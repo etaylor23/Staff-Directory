@@ -161,6 +161,68 @@ module.exports = function(app, passport) {
      
     });
 
+    app.delete('/editQualification/:userID/:qualificationLevelID', function(req, res) {
+        var id = req.params.userID;
+        var qualificationLevelID = req.params.qualificationLevelID;
+
+        /*User.findOneAndUpdate(
+            {
+                //_id:id,
+                "details.qualifications.0._id":qualificationLevelID
+            },
+            {
+                $pull: {"details.qualifications":}
+            },
+            function(err, proceed) {
+                if(proceed) {
+                    console.log("Qualification level removed");
+                } else {
+                    console.log("Failed to remove qualification level");
+                    console.log(err);
+                }
+            }
+        ) 
+
+        User.findOneAndUpdate(
+            {
+                //_id:id,
+                "details.qualifications._id":qualificationLevelID
+            },        
+            { $pull: { "details.qualifications.0._id":qualificationLevelID } },
+            function(err, proceed) {
+                if(proceed) {
+                    console.log("Qualification level removed");
+                    console.log(proceed.details.qualifications);
+                } else {
+                    console.log("Failed to remove qualification level");
+                    console.log(err);
+                }
+            }           
+        )*/
+
+        User.findById(id,function(err, proceed) {
+
+
+            var removedQualificationLevel = proceed.details.qualifications.id(qualificationLevelID).remove();
+
+            proceed.save(function(err,proceed) {
+                if(proceed) {
+                    console.log("Completed");
+                    console.log(proceed.details.qualifications)
+                    res.end(JSON.stringify(proceed.details.qualifications));
+                } else {
+                    console.log("Fail");
+                    console.log(err);
+                }
+            })
+
+        })
+        
+
+
+    })
+
+
 
     app.get("/names", function(req,res) {
         User.find({},{"details.firstname":true,"details.surname":true},function(err,staffBasic){
