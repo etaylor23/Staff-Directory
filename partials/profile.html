@@ -1,45 +1,55 @@
 <div ng-model="staffDirectory" class="profile-view">
+
 	<div class='image'><img src='{{staff.details.image}}' /></div>
+
 	<div>Department: {{staff.details.department}}</div>
+
 	<div>Team: 
-	<select>
-		<option>{{staff.details.team}}</option>
-		<option>Construction</option>
-	</select>
+		<select>
+			<option>{{staff.details.team}}</option>
+			<option>Construction</option>
+		</select>
 	</div>
+
 	<div ng-hide="staff.details.qualifications">
 		<input type='text' placeholder='Enter your first qualification' />
 	</div>
+
 	<div ng-show="staff.details.qualifications">
+
 		<div ng-repeat='(key,staff) in staff.details.qualifications'>
-			<h2>{{staff.qualification.level}} <span ng-click="removeQualificationLevel($index)">[Remove]</span></h2>
+			<h2>{{staff.qualification.level}} 
+				<span ng-if="readWrite === 'Write'" ng-click="removeQualificationLevel($index)">[Remove]</span>
+			</h2>
 			<ul>
 				<li ng-repeat='(staffKey,qualification) in staff.qualification.name'>
 					<span>{{qualification}}</span>
 					
-					<span href="#" ng-click="removeQualification($parent.staff._id,qualification,$index)">Remove</span>
+					<span ng-if="readWrite === 'Write'" ng-click="removeQualification($parent.staff._id,qualification,$index)">Remove</span>
 				</li>
 			<ul>
 
 		</div>
+
 		<div class="add-qualification">
-			<form ng-submit='addQualification()'>
-				<input type="text" placeholder="New qualification" ng-model='qualificationName' />
 
-				<div ng-bind="qualificationName"></div>
+			<form ng-if="readWrite === 'Write'" ng-submit='addQualification()'>
+				<input type="text" placeholder="New qualification" ng-model='$parent.qualificationName' />
 
-				<select ng-model="qualificationLevelID" ng-init>
+				<div ng-bind="$parent.qualificationName"></div>
+
+				<select ng-model="$parent.qualificationLevelID" ng-init>
 					<option  ng-repeat='(attribute, value) in staff.details.qualifications' ng-init="attribute" value="{{value._id}}">{{value.qualification.level}} {{attribute}}</option>
 				</select>
 
-				<input type="text" ng-model="newQualificationLevel">
+				<input type="text" ng-model="$parent.newQualificationLevel">
 
 				<div ng-hide="newQualificationLevel">
-					<div ng-bind="qualificationLevelID"></div>
+					<div ng-bind="$parent.qualificationLevelID"></div>
 				</div>
 
 				<div ng-show="newQualificationLevel">
-					<div ng-bind="newQualificationLevel"></div>
+					<div ng-bind="$parent.newQualificationLevel"></div>
 				</div>
 
 				<input type="submit" value="Submit">
@@ -48,5 +58,7 @@
 
 
 	</div>
+
 	<div ng-click="close()">Close profile</div>
+	
 </div>

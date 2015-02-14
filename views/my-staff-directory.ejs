@@ -29,6 +29,9 @@ body {
     top: 150px;
     width: 500px;
 }
+.fade {
+
+}
 </style>
 
 
@@ -47,7 +50,8 @@ body {
 	</div>
 
 	<div ng-controller="readWrite">
-		<div ng-click="setReadWrite()">Test</div>
+		<input value="Toggle Mode" type="submit" ng-click="setReadWrite()">
+		<div>{{readWrite}}</div>
 	</div>
 </div>
 <div>

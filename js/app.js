@@ -21,7 +21,11 @@
 
 
 
-	app.controller("showProfile", ['$scope','$http','$routeParams','$location','$filter', function($scope, $http, $routeParams, $location, $filter) {
+	app.controller("showProfile", ['$scope','$http','$routeParams','$location','$filter','$cookies', function($scope, $http, $routeParams, $location, $filter, $cookies) {
+
+		$scope.readWrite = $cookies.readWrite;
+		console.log($scope.readWrite);
+
 
 		$http.post('/staffData', {msg:$routeParams._id}).
 			success(function(data, status, headers, config) {
@@ -77,6 +81,7 @@
         	}
 
 
+
         }
 
 
@@ -116,7 +121,15 @@
 
 	app.controller("readWrite", [ '$scope','$cookies', function($scope,$cookies) {
 		$scope.setReadWrite = function() {
-			alert("Test");
+			var readWrite = $cookies.readWrite;
+			if(readWrite === "undefined" || readWrite === "Read") {
+				$cookies.readWrite = "Write";
+			} else {
+				$cookies.readWrite = "Read";
+			}
+
+			$scope.readWrite = $cookies.readWrite;
+
 		}
 	}])
 
