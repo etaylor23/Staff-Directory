@@ -3,31 +3,13 @@
 	var app = angular.module("staffDirectory",['ngRoute','ngCookies']);
 	//create new angular module
 
-	app.controller('staff', ['$scope','$http', function($scope,$http) {
-		$scope.profile = false;
-		//$scope.staffDirectory = staffDirectory;
-
-		$http.get('/names').
-		  success(function(data, status, headers, config) {
-		    console.log("Got initial name set for this user");
-		    console.log(data);
-		    $scope.staffDirectory = data;
-
-		  }).
-		  error(function(data, status, headers, config) {
-		    console.log("Failed to get initial name set for this user");
-		});
-	}]);
-
-
-
-	app.controller("showProfile", ['$scope','$http','$routeParams','$location','$filter','$cookies', function($scope, $http, $routeParams, $location, $filter, $cookies) {
-
-		$scope.readWrite = $cookies.readWrite;
-		console.log($scope.readWrite);
-
-
-		$http.post('/staffData', {msg:$routeParams._id}).
+	app.factory('staffDataFactory', ['$http','$routeParams', function($http,$routeParams,$scope) {
+		
+	    /*var getSource = function($scope) {
+            $http.get(url).success(function(data) {
+                response(data);
+            });
+			$http.post('/staffData', {msg:$routeParams._id}).
 			success(function(data, status, headers, config) {
 				console.log("got staffData for this staff member");
 				$scope.staff = data;
@@ -35,6 +17,51 @@
 			error(function() {
 				console.log("failed to get staffData for this staff member");
 			});
+	    }
+	    return getSource;
+
+		*
+		* This way can be used in conjunction with 'new staffDataFactory($scope);' in controller
+		*
+
+	    */
+
+		return {
+		    getSource : function() {
+		        return $http.post('/staffData', {msg:$routeParams._id})
+		    }
+		}
+
+	}]);
+
+	app.factory('names', ['$http',function($http) {
+		return {
+		    getNames : function() {
+		        return $http.get('/names')
+		    }
+		}
+	}])
+
+	app.controller('staff', ['$scope','$http','names', function($scope,$http,names) {
+		$scope.profile = false;
+
+		names.getNames().success(function(data) {
+		    console.log("Got initial name set for this user");
+		    console.log(data);
+		    $scope.staffDirectory = data;
+		})
+	}]);
+
+
+
+	app.controller("showProfile", ['$scope','$http','$location','$filter','$cookies','staffDataFactory', function($scope, $http, $location, $filter, $cookies,staffDataFactory) {
+
+		$scope.readWrite = $cookies.readWrite;
+		console.log($scope.readWrite);
+
+		staffDataFactory.getSource().success(function(data) {
+			$scope.staff = data;
+		})
 
 
         $scope.close = function() {
@@ -119,18 +146,27 @@
 
 	}]);
 
-	app.controller("readWrite", [ '$scope','$cookies', function($scope,$cookies) {
-		$scope.setReadWrite = function() {
-			var readWrite = $cookies.readWrite;
-			if(readWrite === "undefined" || readWrite === "Read") {
-				$cookies.readWrite = "Write";
+	app.controller("readWrite", [ '$scope','$cookies','$http', function($scope,$cookies,$http) {
+		$http.get('/user').
+		success(function(data) {
+			data.permissions = parseInt(data.permissions);
+			if(data.permissions === 0) {
+				$scope.permissions = true;
+				$scope.setReadWrite = function() {
+					var readWrite = $cookies.readWrite;
+					if(readWrite === "undefined" || readWrite === "Read") {
+						$cookies.readWrite = "Write";
+					} else {
+						$cookies.readWrite = "Read";
+					}
+
+					$scope.readWrite = $cookies.readWrite;
+
+				}
 			} else {
-				$cookies.readWrite = "Read";
-			}
-
-			$scope.readWrite = $cookies.readWrite;
-
-		}
+				$scope.permissions = false;
+			}		
+		})
 	}])
 
 
@@ -148,14 +184,14 @@
 	      });
 	}]);
 	
-	/* This generates the template for showProfile controller */
+	/* This generates the template for showProfile controller 
 	app.directive('profileDetails', function() {
 		return {
 			restrict: 'E',
 			replace: 'false',
 			templateUrl:"templates/profile.html"
 		}
-	});
+	});*/
 
 
 

@@ -1,15 +1,10 @@
 <div ng-model="staffDirectory" class="profile-view">
 
-	<div class='image'><img src='{{staff.details.image}}' /></div>
+	<div class='image'><img ng-src='{{staff.details.image}}' /></div>
 
 	<div>Department: {{staff.details.department}}</div>
 
-	<div>Team: 
-		<select>
-			<option>{{staff.details.team}}</option>
-			<option>Construction</option>
-		</select>
-	</div>
+	<div>Team: {{staff.details.team}}</div>
 
 	<div ng-hide="staff.details.qualifications">
 		<input type='text' placeholder='Enter your first qualification' />
@@ -60,5 +55,5 @@
 	</div>
 
 	<div ng-click="close()">Close profile</div>
-	
+
 </div>

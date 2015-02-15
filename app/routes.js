@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/my-staff-directory', isLoggedIn, function(req, res) {
-        res.render("my-staff-directory.ejs")
+        res.render("my-staff-directory.ejs");
     })
 
     // =====================================
@@ -128,8 +128,6 @@ module.exports = function(app, passport) {
         var qualificationName = req.body.qualificationName;
         var id = req.body.id;
 
-        //var newQualification = new Qualification()
-
         var newQualification = new Qualification(
             {
               qualification: {
@@ -138,8 +136,6 @@ module.exports = function(app, passport) {
               }
             }
         )
-
-        //console.log(newQualification.qualification);
 
         User.findByIdAndUpdate(
             {
@@ -165,43 +161,7 @@ module.exports = function(app, passport) {
         var id = req.params.userID;
         var qualificationLevelID = req.params.qualificationLevelID;
 
-        /*User.findOneAndUpdate(
-            {
-                //_id:id,
-                "details.qualifications.0._id":qualificationLevelID
-            },
-            {
-                $pull: {"details.qualifications":}
-            },
-            function(err, proceed) {
-                if(proceed) {
-                    console.log("Qualification level removed");
-                } else {
-                    console.log("Failed to remove qualification level");
-                    console.log(err);
-                }
-            }
-        ) 
-
-        User.findOneAndUpdate(
-            {
-                //_id:id,
-                "details.qualifications._id":qualificationLevelID
-            },        
-            { $pull: { "details.qualifications.0._id":qualificationLevelID } },
-            function(err, proceed) {
-                if(proceed) {
-                    console.log("Qualification level removed");
-                    console.log(proceed.details.qualifications);
-                } else {
-                    console.log("Failed to remove qualification level");
-                    console.log(err);
-                }
-            }           
-        )*/
-
         User.findById(id,function(err, proceed) {
-
 
             var removedQualificationLevel = proceed.details.qualifications.id(qualificationLevelID).remove();
 
@@ -225,7 +185,7 @@ module.exports = function(app, passport) {
 
 
     app.get("/names", function(req,res) {
-        User.find({},{"details.firstname":true,"details.surname":true},function(err,staffBasic){
+        User.find({},{"details.firstname":true,"details.surname":true,"details.permissions":true},function(err,staffBasic){
             if(staffBasic) {
                 res.end(JSON.stringify(staffBasic));
             } else {
@@ -246,6 +206,10 @@ module.exports = function(app, passport) {
             }
         });
     });
+
+    app.get('/user', function(req,res) {
+        res.end(JSON.stringify(req.user.details));
+    })
 };
 
 

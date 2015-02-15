@@ -50,9 +50,15 @@ body {
 	</div>
 
 	<div ng-controller="readWrite">
-		<input value="Toggle Mode" type="submit" ng-click="setReadWrite()">
-		<div>{{readWrite}}</div>
+		<div ng-if="permissions === true">
+			<input value="Toggle Mode" type="submit" ng-click="setReadWrite()">
+			<div>{{$parent.readWrite}}</div>			
+		</div>
+		<div ng-if="permissions === false">
+			<p>No access to write</p>
+		</div>
 	</div>
+
 </div>
 <div>
 	<strong>Done: </strong>
@@ -61,12 +67,12 @@ body {
 		<li>Get other profile information relevant to staff member clicked</li>
 		<li>Add lightbox styling to show profile</li>
 		<li>Add/Remove Qualifications</li>
+		<li>Create view for view only and another for read and write</li>
 	</ul>
 	<strong>To Do Next: </strong>
 	<ul>
 
-		<li>Create view for view only and another for read and write
-		</li>
+		
 		<li>Add permissions based views and components depending on access</li>
 		<li>Add instant chat via socket.io</li>
 	</ul>
