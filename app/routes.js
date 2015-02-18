@@ -184,8 +184,20 @@ module.exports = function(app, passport) {
 
 
 
-    app.get("/names", function(req,res) {
-        User.find({},{"details.firstname":true,"details.surname":true,"details.permissions":true},function(err,staffBasic){
+    app.get("/department", function(req,res) {
+        var department = req.user.details.department;
+        User.find({ "details.department":department },{"details.firstname":true,"details.surname":true,"details.permissions":true},function(err,staffBasic){
+            if(staffBasic) {
+                res.end(JSON.stringify(staffBasic));
+            } else {
+                console.log(err);
+            }
+        });
+    });
+
+    app.get("/team", function(req,res) {
+        var team = req.user.details.team;
+        User.find({ "details.team":team },{"details.firstname":true,"details.surname":true,"details.permissions":true},function(err,staffBasic){
             if(staffBasic) {
                 res.end(JSON.stringify(staffBasic));
             } else {

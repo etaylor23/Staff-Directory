@@ -39,9 +39,7 @@ body {
 <div>
 	<ul ng-controller="staff">
 		<li ng-repeat="staff in staffDirectory">
-				<div ng-class="{ active: profile }">
 					<a href="#staff/{{staff._id}}">{{staff.details.firstname}} {{staff.details.surname}}</a>
-				</div>
 			</div>
 		</li>
 	</ul>
@@ -67,12 +65,14 @@ body {
 		<li>Get other profile information relevant to staff member clicked</li>
 		<li>Add lightbox styling to show profile</li>
 		<li>Add/Remove Qualifications</li>
-		<li>Create view for view only and another for read and write</li>
+		<li>Create editing permissions dependent on user permissions
+			<ul>
+				<li>Create view for view only and another for read and write if access to edit - <strong>Bug - If admin leaves in write mode and user logs in, user can continue to write. Solution - Write to cookie username, if username === x and if write mode === true allow write, else allow read only, destroy cookie. On post/put if user type === admin allow write/otherwise fail</strong></li>
+			</ul>
+		</li>
 	</ul>
 	<strong>To Do Next: </strong>
 	<ul>
-
-		
 		<li>Add permissions based views and components depending on access</li>
 		<li>Add instant chat via socket.io</li>
 	</ul>

@@ -34,21 +34,31 @@
 
 	}]);
 
-	app.factory('names', ['$http',function($http) {
+	app.factory('department', ['$http',function($http) {
 		return {
-		    getNames : function() {
-		        return $http.get('/names')
+		    getDepartment : function() {
+		        return $http.get('/department')
+		    }
+		}
+	}])
+	app.factory('team', ['$http',function($http) {
+		return {
+		    getTeam : function() {
+		        return $http.get('/team')
 		    }
 		}
 	}])
 
-	app.controller('staff', ['$scope','$http','names', function($scope,$http,names) {
+	app.controller('staff', ['$scope','$http','department','team', function($scope,$http,department,team) {
 		$scope.profile = false;
 
-		names.getNames().success(function(data) {
+		department.getDepartment().success(function(data) {
 		    console.log("Got initial name set for this user");
 		    console.log(data);
 		    $scope.staffDirectory = data;
+		});
+		team.getTeam().success(function(data) {
+			console.log(data);
 		})
 	}]);
 
@@ -62,7 +72,6 @@
 		staffDataFactory.getSource().success(function(data) {
 			$scope.staff = data;
 		})
-
 
         $scope.close = function() {
         	$location.path('').replace();
@@ -106,11 +115,7 @@
 					});
 	        	}	
         	}
-
-
-
         }
-
 
         $scope.removeQualification = function(qualificationLevelID,qualificationName,idx) {
         	console.log(qualificationLevelID);
@@ -158,7 +163,7 @@
 						$cookies.readWrite = "Write";
 					} else {
 						$cookies.readWrite = "Read";
-					}
+					}						
 
 					$scope.readWrite = $cookies.readWrite;
 
