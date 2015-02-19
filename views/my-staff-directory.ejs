@@ -34,15 +34,40 @@ body {
 }
 </style>
 
+<div ng-controller="staffSearch">
+	<form>
+		<label for="staff-search-field">Search for a member of staff:</label>
+		<input ng-change="typing()" id="staff-search-field" type="text" ng-model="searchText">
+		<div ng-bind="searchText"></div>
+		<select>
+			<option ng-repeat="dept in searchType">{{dept}}</option>
+		</select>
+		<div ng-bind="searchType"></div>
+	</form>
+</div>
+
+<div ng-controller="staff">
+	<div>
+		<h2>Your Department</h2>
+		<ul>
+			<li ng-repeat="deptMembers in department">
+				<a href="#staff/{{deptMembers._id}}">{{deptMembers.details.firstname}} {{deptMembers.details.surname}}</a>
+				</div>
+			</li>
+		</ul>
+		<h2>Your Team</h2>
+		<ul>
+			<li ng-repeat="teamMembers in team">
+				<a href="#staff/{{teamMembers._id}}">{{teamMembers.details.firstname}} {{teamMembers.details.surname}}</a>
+				</div>
+			</li>
+		</ul>
+	</div>
 
 
-<div>
-	<ul ng-controller="staff">
-		<li ng-repeat="staff in staffDirectory">
-					<a href="#staff/{{staff._id}}">{{staff.details.firstname}} {{staff.details.surname}}</a>
-			</div>
-		</li>
-	</ul>
+</div>
+
+
 	<div ng-controller="showProfile">
 		<div ng-view class="profile-holder"></div>
 	</div>
@@ -57,7 +82,7 @@ body {
 		</div>
 	</div>
 
-</div>
+
 <div>
 	<strong>Done: </strong>
 	<ul>

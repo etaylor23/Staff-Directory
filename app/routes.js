@@ -221,6 +221,19 @@ module.exports = function(app, passport) {
 
     app.get('/user', function(req,res) {
         res.end(JSON.stringify(req.user.details));
+    });
+
+    app.get('/search/:searchTerm', function(req, res) {
+        var searchTerm = req.params.searchTerm;
+
+        User.find( { $or:[ {'details.firstname':searchTerm}, {'details.surname':searchTerm} ] }, 
+          function(err,searchResults){
+            if(searchResults) {
+                console.log(searchResults);
+            } else {
+                console.log(err);
+            }
+        });
     })
 };
 

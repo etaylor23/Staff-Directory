@@ -55,10 +55,12 @@
 		department.getDepartment().success(function(data) {
 		    console.log("Got initial name set for this user");
 		    console.log(data);
-		    $scope.staffDirectory = data;
+		    $scope.department = data;
 		});
 		team.getTeam().success(function(data) {
-			console.log(data);
+			
+			$scope.team = data;
+			console.log($scope.team);
 		})
 	}]);
 
@@ -173,6 +175,25 @@
 			}		
 		})
 	}])
+
+	app.controller("staffSearch", [ '$scope','$http', function($scope,$http) {
+		console.log("This is staff search");
+		$scope.searchType = ['Person','Team','Department'];
+
+		$scope.typing = function() {
+			var searchText = $scope.searchText;
+			var searchTextCount = $scope.searchText.length;
+			if(searchTextCount >= 3) {
+				$http.get('/search/'+searchText).success(function(data) {
+					console.log("Win");
+				}).error(function() {
+					console.log("Lose");
+				})
+			}
+			
+		}
+
+ 	}])
 
 
 	app.config(['$routeProvider',
