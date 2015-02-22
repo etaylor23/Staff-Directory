@@ -44,6 +44,9 @@ body {
 		</select>
 		<div ng-bind="searchType"></div>
 	</form>
+	<div ng-repeat="results in searchResults">
+		<img src="{{results.details.image}}"> <span>{{results.details.firstname}} {{results.details.surname}}</span>
+	</div>
 </div>
 
 <div ng-controller="staff">

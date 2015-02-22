@@ -180,18 +180,51 @@
 		console.log("This is staff search");
 		$scope.searchType = ['Person','Team','Department'];
 
+		var makeSearch = true;
+		var timer = false;
+
 		$scope.typing = function() {
+
 			var searchText = $scope.searchText;
 			var searchTextCount = $scope.searchText.length;
 			if(searchTextCount >= 3) {
-				$http.get('/search/'+searchText).success(function(data) {
-					console.log("Win");
-				}).error(function() {
-					console.log("Lose");
-				})
-			}
+
+
+
+				setTimeout(function() {
+					timer = true;
+					console.log(timer);
+					setTimeout(function() {
+						timer = false;
+						console.log(timer);
+					},2500);
+				}, 0);
+
+				if(timer === true) {
+					console.log("Dont make search");
+					return false;
+				} else {
+					$http.get('/search/'+searchText).success(function(data) {
+						$scope.searchResults = data;
+						console.log("Win");
+					}).error(function() {
+						console.log("Lose");
+					})
+				}
+
+				/*setTimeout(function() {
+					$http.get('/search/'+searchText).success(function(data) {
+						$scope.searchResults = data;
+						console.log("Win");
+					}).error(function() {
+						console.log("Lose");
+					})
+				}, 1000)*/
+			}	
 			
 		}
+
+		//write search on submit click and enter
 
  	}])
 

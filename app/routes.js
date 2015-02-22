@@ -186,7 +186,7 @@ module.exports = function(app, passport) {
 
     app.get("/department", function(req,res) {
         var department = req.user.details.department;
-        User.find({ "details.department":department },{"details.firstname":true,"details.surname":true,"details.permissions":true},function(err,staffBasic){
+        User.find({ "details.department":department },{"details.firstname":true,"details.surname":true,"details.permissions":true,"details.department":true},function(err,staffBasic){
             if(staffBasic) {
                 res.end(JSON.stringify(staffBasic));
             } else {
@@ -225,11 +225,35 @@ module.exports = function(app, passport) {
 
     app.get('/search/:searchTerm', function(req, res) {
         var searchTerm = req.params.searchTerm;
+        if(searchTerm.indexOf(" ") >= 0) {
+            var terms = searchTerm.split(" ");
+            console.log(terms[0]);
+            console.log(terms[1]);
+            console.log("Hit if")
+        } else {
+            var terms = new Array();
+            terms[0] = searchTerm;
+            terms[1] = searchTerm;
+            console.log("Hit else")
+        }
 
-        User.find( { $or:[ {'details.firstname':searchTerm}, {'details.surname':searchTerm} ] }, 
-          function(err,searchResults){
+    
+
+        User.find( { 
+            $or:[ 
+                {'details.firstname': {$regex: searchTerm } }, 
+                {'details.surname':{$regex: searchTerm } },
+                { $and: [ 
+                        { 'details.firstname': { $regex: terms[0] } }, 
+                        { 'details.surname': { $regex: terms[1] } } 
+                    ] 
+                }
+                ] 
+            }, 
+            function(err,searchResults){
             if(searchResults) {
                 console.log(searchResults);
+                res.end(JSON.stringify(searchResults));
             } else {
                 console.log(err);
             }
