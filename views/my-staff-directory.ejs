@@ -39,8 +39,10 @@ body {
 		<label for="staff-search-field">Search for a member of staff:</label>
 		<input ng-change="typing()" id="staff-search-field" type="text" ng-model="searchText">
 		<div ng-bind="searchText"></div>
-		<select>
-			<option ng-repeat="dept in searchType">{{dept}}</option>
+		<select ng-model="searchType" ng-change="alterSearchType()">
+			<option>Person</option>
+			<option>Team</option>
+			<option>Department</option>
 		</select>
 		<div ng-bind="searchType"></div>
 	</form>
@@ -102,6 +104,7 @@ body {
 	<strong>To Do Next: </strong>
 	<ul>
 		<li>Add permissions based views and components depending on access</li>
+		<li>Add room booker with rooms and dates</li>
 		<li>Add instant chat via socket.io</li>
 	</ul>
 </div>

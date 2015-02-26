@@ -178,18 +178,19 @@
 
 	app.controller("staffSearch", [ '$scope','$http', function($scope,$http) {
 		console.log("This is staff search");
-		$scope.searchType = ['Person','Team','Department'];
+		$scope.searchType = "Person";
+
+
 
 		var makeSearch = true;
 		var timer = false;
 
 		$scope.typing = function() {
+			console.log($scope.searchType);
 
 			var searchText = $scope.searchText;
 			var searchTextCount = $scope.searchText.length;
 			if(searchTextCount >= 3) {
-
-
 
 				setTimeout(function() {
 					timer = true;
