@@ -186,10 +186,18 @@
 		var timer = false;
 
 		$scope.typing = function() {
-			console.log($scope.searchType);
+			var search = {
+				searchParams: {
+					type:$scope.searchType,
+					text:$scope.searchText				
+				}
 
-			var searchText = $scope.searchText;
+			}
+			var searchQuery = search.searchParams.text + "/" + search.searchParams.type;
+			//var searchType = $scope.searchType;
+			//var searchText = $scope.searchText;
 			var searchTextCount = $scope.searchText.length;
+
 			if(searchTextCount >= 3) {
 
 				setTimeout(function() {
@@ -205,7 +213,7 @@
 					console.log("Dont make search");
 					return false;
 				} else {
-					$http.get('/search/'+searchText).success(function(data) {
+					$http.get('/search/'+searchQuery).success(function(data) {
 						$scope.searchResults = data;
 						console.log("Win");
 					}).error(function() {
@@ -221,9 +229,11 @@
 						console.log("Lose");
 					})
 				}, 1000)*/
+			} else {
+				$scope.searchResults = "";
 			}	
 			
-		}
+		} 
 
 		//write search on submit click and enter
 

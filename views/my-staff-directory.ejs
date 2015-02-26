@@ -1,37 +1,14 @@
 <!DOCTYPE html>
 <html ng-app="staffDirectory">
 <head>
-	<title></title>
+	<title>Staff System</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
 
 <style>
-body {
-	padding:0;
-	margin:0;
-}
-.image img {
-    height: 300px;
-    max-width: 100%;
-}
-.profile-holder {
-	background:rgba(0,0,0,0.75);
-	position:absolute;
-	width:100%;
-	height:100%;
-	top:0;
-}
-.profile-view {
-    background:rgba(255,0,255,0.75);
-    margin: 0 auto;
-    padding: 30px;
-    position: relative;
-    top: 150px;
-    width: 500px;
-}
-.fade {
 
-}
+
 </style>
 
 <div ng-controller="staffSearch">
@@ -100,6 +77,7 @@ body {
 				<li>Create view for view only and another for read and write if access to edit - <strong>Bug - If admin leaves in write mode and user logs in, user can continue to write. Solution - Write to cookie username, if username === x and if write mode === true allow write, else allow read only, destroy cookie. On post/put if user type === admin allow write/otherwise fail</strong></li>
 			</ul>
 		</li>
+		<li>Add search across, names, teams and departments</li>
 	</ul>
 	<strong>To Do Next: </strong>
 	<ul>
