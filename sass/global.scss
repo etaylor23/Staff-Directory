@@ -1,0 +1,26 @@
+body {
+	padding:0;
+	margin:0;
+}
+
+.global-holder {
+	max-width:1024px;
+    margin: 0 auto;
+}
+
+header {
+	height:100px;
+	.search {
+		position:relative;
+		float:right;
+		
+	}
+}
+
+main {
+    .department,.team {
+        width:50%;
+        display:inline-block;
+        vertical-align:top;
+    }
+}

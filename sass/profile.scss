@@ -1,0 +1,16 @@
+.profile-holder {
+    position:absolute;
+    left:50%;
+    .profile-view {
+        background:rgba(255,0,255,0.75);
+        position: relative; 
+        left: -50%;
+        padding: 30px;
+        width: 500px;
+        .image {
+            img {
+                width: 100%;       
+            }
+        }
+    } 
+}

@@ -3,22 +3,35 @@ module.exports = function(grunt) {
 
 	watch: {
       sass: {
-        files: 'sass/main.scss',
+        files: 'sass/*.scss',
         tasks: ['sass']
       }
 	},
 
-	  sass: {                              // Task
-	    dist: {                            // Target
-	      options: {                       // Target options
-	        style: 'expanded'
-	      },
-	      files: {                         // Dictionary of files
-	        'css/main.css': 'sass/main.scss'     // 'destination': 'source'
-	        //'widgets.css': 'widgets.scss'
+	sass: {
+	    dist: {
+	    	options: {
+	        	style: 'expanded'
+	    	},
+	    	files: {
+	        	'css/main.css': 'sass/main.scss'
 	      }
 	    }
+	}/*,
+
+	assemble: {
+	  options: {
+	    //assets: 'assets',
+	    //plugins: ['permalinks'],
+	    partials: ['assemble/partials/*.hbs'],
+	    layout: ['assemble/layouts/*.hbs'],
+	    data: ['assemble/data/*.json']
+	  },
+	  site: {
+	    src: ['docs/*.hbs'],
+	    dest: './'
 	  }
+	}*/
 
 
   });
@@ -26,6 +39,7 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('assemble');
 
 	grunt.registerTask('default', ['watch']);
 
