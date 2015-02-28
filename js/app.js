@@ -177,13 +177,13 @@
 	}])
 
 	app.controller("staffSearch", [ '$scope','$http', function($scope,$http) {
-		console.log("This is staff search");
 		$scope.searchType = "Person";
-
-
 
 		var makeSearch = true;
 		var timer = false;
+		var searchActive = false;
+		$scope.resultsReturned = false;
+
 
 		$scope.typing = function() {
 			var search = {
@@ -194,11 +194,13 @@
 
 			}
 			var searchQuery = search.searchParams.text + "/" + search.searchParams.type;
-			//var searchType = $scope.searchType;
-			//var searchText = $scope.searchText;
 			var searchTextCount = $scope.searchText.length;
 
 			if(searchTextCount >= 3) {
+				if($scope.resultsReturned === false) {
+					$(".results").css({"width":"500px","overflow":"initial","right":"0px","overflow-y":"scroll"});
+					$scope.resultsReturned = true;
+				}
 
 				setTimeout(function() {
 					timer = true;
@@ -221,19 +223,35 @@
 					})
 				}
 
-				/*setTimeout(function() {
-					$http.get('/search/'+searchText).success(function(data) {
+			} else {
+				if($scope.resultsReturned === true) {
+					$(".results").css({"width":"0px","overflow":"hidden","right":"-500px","transition":"all 2s ease 0s"});
+					$scope.resultsReturned = false;
+				}
+			}		
+		}
+
+		$scope.alterSearchType = function() {
+			var search = {
+				searchParams: {
+					type:$scope.searchType,
+					text:$scope.searchText				
+				}
+
+			}
+			var searchQuery = search.searchParams.text + "/" + search.searchParams.type;
+			var searchTextCount = $scope.searchText.length;
+					$http.get('/search/'+searchQuery).success(function(data) {
 						$scope.searchResults = data;
 						console.log("Win");
 					}).error(function() {
 						console.log("Lose");
 					})
-				}, 1000)*/
-			} else {
-				$scope.searchResults = "";
-			}	
-			
-		} 
+		}
+
+
+
+
 
 		//write search on submit click and enter
 
@@ -262,11 +280,6 @@
 			templateUrl:"templates/profile.html"
 		}
 	});*/
-
-
-
-
-
 
 })()
 

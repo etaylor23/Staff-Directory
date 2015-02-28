@@ -1,0 +1,35 @@
+@media only screen and (max-width:768px) {
+	header {
+		.search {
+			.search-container {
+				width:100%;
+				.container-1 {
+					width:100%;
+					input#search {
+						width:100%;
+						box-sizing:border-box;
+					}
+				}
+			}
+			.search-type-container {
+				width:100%;
+				margin-left:0;
+			}
+		}
+	}
+}
+
+
+
+@media only screen and (max-width:375px) {
+
+
+	main {
+	    .box {
+	    	&.fifty-fifty {
+	    		width:100%;
+	    	}
+	    }
+	}
+	
+}

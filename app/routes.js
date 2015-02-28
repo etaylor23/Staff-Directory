@@ -246,7 +246,10 @@ module.exports = function(app, passport) {
                         ] 
                     }
                     ] 
-                }, 
+                },
+                {
+                    "details.image":true,"details.firstname":true,"details.surname":true,"details.team":true,"details.department":true
+                },
                 function(err,searchResults){
                 if(searchResults) {
                     console.log(searchResults);

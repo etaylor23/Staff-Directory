@@ -3,6 +3,7 @@
 <head>
 	<title>Staff System</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -10,27 +11,47 @@
 
 	<header>
 		<div class="search" ng-controller="staffSearch">
+
 			<form>
-				<label for="staff-search-field">Search for a member of staff:</label>
-				<input ng-change="typing()" id="staff-search-field" type="text" ng-model="searchText">
-				<div ng-bind="searchText"></div>
-				<select ng-model="searchType" ng-change="alterSearchType()">
-					<option>Person</option>
-					<option>Team</option>
-					<option>Department</option>
-				</select>
-				<div ng-bind="searchType"></div>
+				<div class="search-container">
+				  <div class="container-1">
+				      <span class="icon"><i class="fa fa-search"></i></span>
+				      <input ng-change="typing()" ng-model="searchText" type="search" id="search" placeholder="Search..." />
+				  </div>
+				</div>
+
+
+				<div class="search-type-container">
+					<select ng-model="searchType" ng-change="alterSearchType()">
+						<option>Person</option>
+						<option>Team</option>
+						<option>Department</option>
+					</select>
+				</div>
+				
 			</form>
-			<div ng-repeat="results in searchResults">
-				<img src="{{results.details.image}}"> <span>{{results.details.firstname}} {{results.details.surname}}</span>
+			<div class="results">
+				<div class="results-list">
+					<div class="search-summary">Looking for <strong ng-bind="searchText"></strong> in <strong ng-bind="searchType"></strong></div>
+					<div ng-repeat="results in searchResults">
+						<img src="{{results.details.image}}"> 
+						<div class="about">
+							<div>{{results.details.firstname}} {{results.details.surname}}</div>
+							<div>{{results.details.team}}</div>
+							<div>{{results.details.department}}</div>
+
+						</div>
+					</div>
+				</div>
 			</div>
+
 		</div>
 	</header>
 
 
 	<main>
 		<div ng-controller="staff">
-			<div class="department">
+			<div class="department box fifty-fifty">
 				<h2>Your Department</h2>
 				<ul>
 					<li ng-repeat="deptMembers in department">
@@ -38,7 +59,7 @@
 					</li>
 				</ul>
 			</div><!--
-			--><div class="team">
+			--><div class="team box fifty-fifty">
 				<h2>Your Team</h2>
 				<ul>
 					<li ng-repeat="teamMembers in team">
