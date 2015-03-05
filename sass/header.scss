@@ -1,7 +1,6 @@
 header {
 	height:100px;
 	.search {
-
 		.results {
 			top:0;
 			width:0;
@@ -13,7 +12,6 @@ header {
 			transition:right 1s ease 0s;
 			.results-list {
 				padding:30px;
-
 				.search-summary {
 					text-align: center;
 					margin-right:20px;
@@ -33,7 +31,7 @@ header {
 		.search-type-container {
 			height: 50px;
 			background: #2b303b;
-			width: 300px;
+			width: 200px;
 			display: inline-block;
 			vertical-align:top;
 			margin-left:-4px;
@@ -107,6 +105,17 @@ header {
 		.container-1 input#search:focus, .container-1 input#search:active {
 		    outline:none;
 		    background: #ffffff;
+		}
+	}
+	.readWrite {
+		height: 50px;
+		width: 134px;
+		background-color:$blue-grey;
+		text-align:center;
+		float:left;
+		span {
+			margin-top:20px;
+			display:inline-block;
 		}
 	}
 }

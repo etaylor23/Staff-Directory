@@ -42,7 +42,7 @@ header {
   header .search .search-type-container {
     height: 50px;
     background: #2b303b;
-    width: 300px;
+    width: 200px;
     display: inline-block;
     vertical-align: top;
     margin-left: -4px;
@@ -97,6 +97,15 @@ header {
   header .search .container-1 input#search:focus, header .search .container-1 input#search:active {
     outline: none;
     background: #ffffff; }
+  header .readWrite {
+    height: 50px;
+    width: 134px;
+    background-color: #2b303b;
+    text-align: center;
+    float: left; }
+    header .readWrite span {
+      margin-top: 20px;
+      display: inline-block; }
 
 .profile-holder {
   position: absolute;

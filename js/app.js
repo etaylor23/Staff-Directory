@@ -151,6 +151,18 @@
         	})
         }
 
+        $scope.edit = function() {
+        	//alert("Test");
+        	
+        	if($scope.editValue === false) {
+        		$scope.editValue = true;
+        	} else {
+        		$scope.editValue = false;
+        	}
+        }
+
+        $scope.editValue = false;
+
 	}]);
 
 	app.controller("readWrite", [ '$scope','$cookies','$http', function($scope,$cookies,$http) {
@@ -174,6 +186,7 @@
 				$scope.permissions = false;
 			}		
 		})
+
 	}])
 
 	app.controller("staffSearch", [ '$scope','$http', function($scope,$http) {

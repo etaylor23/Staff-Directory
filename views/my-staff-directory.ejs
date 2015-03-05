@@ -10,8 +10,20 @@
 <div class="global-holder">
 
 	<header>
-		<div class="search" ng-controller="staffSearch">
 
+		<div class="readWrite" ng-controller="readWrite">
+			<div ng-if="permissions === true">
+				<div class="mode">
+					<span ng-click="setReadWrite()">Set Mode:</span> <span>{{$parent.readWrite}}</span>
+				</div>
+							
+			</div>
+			<div ng-if="permissions === false">
+				<p>No access to write</p>
+			</div>
+		</div>
+
+		<div class="search" ng-controller="staffSearch">
 			<form>
 				<div class="search-container">
 				  <div class="container-1">
@@ -46,6 +58,7 @@
 			</div>
 
 		</div>
+		
 	</header>
 
 
@@ -74,15 +87,8 @@
 			<div ng-view class="profile-holder"></div>
 		</div>
 
-		<div ng-controller="readWrite">
-			<div ng-if="permissions === true">
-				<input value="Toggle Mode" type="submit" ng-click="setReadWrite()">
-				<div>{{$parent.readWrite}}</div>			
-			</div>
-			<div ng-if="permissions === false">
-				<p>No access to write</p>
-			</div>
-		</div>
+
+
 	</main>
 
 
