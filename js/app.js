@@ -48,6 +48,15 @@
 		    }
 		}
 	}])
+	app.factory('currentUser', ['$http',function($http) {
+		return {
+		    getUser : function() {
+		        return $http.get('/user')
+		    }
+		}
+	}])
+
+	
 
 	app.controller('staff', ['$scope','$http','department','team', function($scope,$http,department,team) {
 		$scope.profile = false;
@@ -69,6 +78,7 @@
 	app.controller("showProfile", ['$scope','$http','$location','$filter','$cookies','staffDataFactory', function($scope, $http, $location, $filter, $cookies,staffDataFactory) {
 
 		$scope.readWrite = $cookies.readWrite;
+
 		console.log($scope.readWrite);
 
 		staffDataFactory.getSource().success(function(data) {
@@ -151,25 +161,15 @@
         	})
         }
 
-        $scope.edit = function() {
-        	//alert("Test");
-        	
-        	if($scope.editValue === false) {
-        		$scope.editValue = true;
-        	} else {
-        		$scope.editValue = false;
-        	}
-        }
 
-        $scope.editValue = false;
 
 	}]);
 
-	app.controller("readWrite", [ '$scope','$cookies','$http', function($scope,$cookies,$http) {
-		$http.get('/user').
+	app.controller("readWrite", [ '$scope','$cookies','$http','currentUser', function($scope,$cookies,$http,currentUser) {
+		currentUser.getUser().
 		success(function(data) {
-			data.permissions = parseInt(data.permissions);
-			if(data.permissions === 0) {
+			data.details.permissions = parseInt(data.details.permissions);
+			if(data.details.permissions === 0) {
 				$scope.permissions = true;
 				$scope.setReadWrite = function() {
 					var readWrite = $cookies.readWrite;
@@ -269,6 +269,59 @@
 		//write search on submit click and enter
 
  	}])
+
+	app.controller("currentUserProfile", ["$scope","$http","currentUser",function($scope, $http, currentUser) {
+		$scope.editValue = false;
+    	$scope.initDepartment = false;
+    	$scope.initTeam = false;
+
+		currentUser.getUser()
+		.success(function(data) {
+			$scope.currentUserDetails = data;
+			console.log(data);
+		})
+
+
+
+        $scope.editDept = function(editField) {
+        	console.log(editField);
+
+
+
+        	if($scope.editValue === false && editField === "department") {
+        		$scope.updatedInstitutionArea = $scope.currentUserDetails.details.department;
+        		$scope.departmentInEdit = true;
+        		$scope.editValue = true;
+        		$scope.currentUserDetailsSelection = $scope.currentUserDetails.details.department;
+        	} else if ($scope.editValue === false && editField === "team") {
+        		$scope.updatedInstitutionArea = $scope.currentUserDetails.details.team;
+        		$scope.teamInEdit = true;
+        		$scope.editValue = true;  
+        		$scope.currentUserDetailsSelection = $scope.currentUserDetails.details.team;   		
+			} else {
+
+			}
+
+    		if($scope.updatedInstitutionArea !== undefined && $scope.updatedInstitutionArea !== $scope.currentUserDetailsSelection) {
+        		var institutionArea = { 'id':$scope.currentUserDetails._id, 'area':$scope.updatedInstitutionArea, 'editField':editField }	
+        		$http.post('/institution-area', institutionArea)
+        		.success(function(data) {
+          			$scope.editValue = false;
+          			if($scope.departmentInEdit === true) {
+        				$scope.currentUserDetails.details.department = data.details.department;
+          				$scope.departmentInEdit = false;
+          			} else {
+        				$scope.currentUserDetails.details.team = data.details.team;
+          				$scope.teamInEdit = false;
+          			}
+        		})
+    		} else {
+    			return false;
+    		}
+        	
+        }
+
+	}])
 
 
 	app.config(['$routeProvider',

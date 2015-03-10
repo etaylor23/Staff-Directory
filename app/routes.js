@@ -218,8 +218,51 @@ module.exports = function(app, passport) {
     });
 
     app.get('/user', function(req,res) {
-        res.end(JSON.stringify(req.user.details));
+        res.end(JSON.stringify(req.user));
     });
+
+    app.post('/institution-area', function(req,res) {
+        var id = req.body.id;
+        var area = req.body.area;
+        var editField = req.body.editField;
+
+        if(editField === "department") {
+            User.findByIdAndUpdate(
+            { 
+                "_id":id
+            },
+            { 
+                "details.department":area 
+            },
+            function(err,data) {
+                if(data) {
+                    res.end(JSON.stringify(data));
+                } else {
+                    console.log(err);
+                }
+            })            
+        } else {
+            User.findByIdAndUpdate(
+            { 
+                "_id":id
+            },
+            { 
+                "details.team":area 
+            },
+            function(err,data) {
+                if(data) {
+                    res.end(JSON.stringify(data));
+                } else {
+                    console.log(err);
+                }
+            })               
+        }
+
+
+
+
+        //console.log(req.body.department);
+    })
 
     app.get('/search/:searchTerm/:searchType', function(req, res) {
         var searchTerm = req.params.searchTerm;

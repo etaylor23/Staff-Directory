@@ -2,12 +2,7 @@
 
 	<div class='image'><img ng-src='{{staff.details.image}}' /></div>
 
-	<div>Department: 
-		<span ng-if="editValue === false" ng-click="edit()">{{staff.details.department}}</span>
-		<div ng-if="editValue === true">
-			<input type="text" value="{{staff.details.department}}">
-		</div>
-	</div>
+	<div>Department: {{staff.details.department}}</div>
 
 	<div>Team: {{staff.details.team}}</div>
 

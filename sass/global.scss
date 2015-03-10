@@ -17,12 +17,10 @@ p,h1,h2,h3,h4,h5,h6,a {
 
 
 main {
-    .department,.team {
-        //width:50%;
+
+    .box {
         display:inline-block;
         vertical-align:top;
-    }
-    .box {
     	&.fifty-fifty {
     		width:50%;
     	}

@@ -63,6 +63,40 @@
 
 
 	<main>
+		<div ng-controller="currentUserProfile">
+			<div class="box fifty-fifty">
+				<div class="personal">
+					<span class="firstname">{{currentUserDetails.details.firstname}}</span> <span class="surname">{{currentUserDetails.details.surname}}</span><br />
+					<span class="dob">{{currentUserDetails.details.dob}}</span>
+				</div>
+				<div class="professional">
+					<span>Your Team: </span>
+					<span ng-if="editValue === false" ng-click="editDept('team')">{{currentUserDetails.details.team}}</span>
+					<span ng-if="editValue === true && teamInEdit === true">
+						<input ng-blur="editDept('team')" type="text" ng-model="$parent.updatedInstitutionArea">
+						<span ng-bind="$parent.updatedInstitutionArea"></span>
+					</span><br />
+
+					<span>Your Department: </span>
+					<span ng-if="editValue === false" ng-click="editDept('department')">{{currentUserDetails.details.department}}</span>
+					<span ng-if="editValue === true && departmentInEdit === true">
+						<input ng-blur="editDept('department')" type="text" ng-model="$parent.updatedInstitutionArea">
+						<span ng-bind="$parent.updatedInstitutionArea"></span>
+					</span>
+
+				</div>
+			</div><!--
+			--><div class="academic box fifty-fifty">
+				<div ng-repeat="quals in currentUserDetails.qualifications">
+					Level: {{quals.qualification.level}}
+					<div ng-repeat="qualName in quals.qualification.name">
+						Name: {{qualName}}
+					</div>
+				</div>
+			</div>
+
+		</div>
+
 		<div ng-controller="staff">
 			<div class="department box fifty-fifty">
 				<h2>Your Department</h2>
