@@ -16,6 +16,12 @@ main .box {
   vertical-align: top; }
   main .box.fifty-fifty {
     width: 50%; }
+main .personal-profile .personal .profile-image {
+  max-width: 50%;
+  float: left;
+  margin-right: 20px; }
+  main .personal-profile .personal .profile-image img {
+    width: 100%; }
 
 header {
   height: 100px; }

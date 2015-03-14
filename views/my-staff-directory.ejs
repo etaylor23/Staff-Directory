@@ -63,14 +63,18 @@
 
 
 	<main>
-		<div ng-controller="currentUserProfile">
+		<div class="personal-profile" ng-controller="currentUserProfile">
 			<div class="box fifty-fifty">
+				<h2>Yourself</h2>
 				<div class="personal">
+					<div class="profile-image">
+						<img src="{{currentUserDetails.details.image}}" alt="Profile photo">
+					</div>
 					<span class="firstname">{{currentUserDetails.details.firstname}}</span> <span class="surname">{{currentUserDetails.details.surname}}</span><br />
 					<span class="dob">{{currentUserDetails.details.dob}}</span>
 				</div>
 				<div class="professional">
-					<span>Your Team: </span>
+					<!--<span>Your Team: </span>
 					<span ng-if="editValue === false" ng-click="editDept('team')">{{currentUserDetails.details.team}}</span>
 					<span ng-if="editValue === true && teamInEdit === true">
 						<input ng-blur="editDept('team')" type="text" ng-model="$parent.updatedInstitutionArea">
@@ -82,17 +86,23 @@
 					<span ng-if="editValue === true && departmentInEdit === true">
 						<input ng-blur="editDept('department')" type="text" ng-model="$parent.updatedInstitutionArea">
 						<span ng-bind="$parent.updatedInstitutionArea"></span>
-					</span>
+					</span>-->
+					<div class="team">{{currentUserDetails.details.team}}</div>
+					<div class="department">{{currentUserDetails.details.department}}</div>
 
 				</div>
 			</div><!--
 			--><div class="academic box fifty-fifty">
-				<div ng-repeat="quals in currentUserDetails.qualifications">
-					Level: {{quals.qualification.level}}
-					<div ng-repeat="qualName in quals.qualification.name">
-						Name: {{qualName}}
-					</div>
-				</div>
+				<h2>Your Qualifications</h2>
+
+				<ul ng-repeat="quals in currentUserDetails.details.qualifications">
+					<h2>{{quals.qualification.level}}</h2>
+					<li ng-repeat="qualName in quals.qualification.name">
+						<span>{{qualName}}</span>
+					</li>
+				</ul>
+			
+
 			</div>
 
 		</div>
@@ -162,6 +172,11 @@
 		<li>$sort</li>
 		<li>$group</li>
 	</ul>
+</div>
+
+<div>
+	<h2>Strategy</h2>
+	<div>Read only user and managers edit, no one can edit their personal profile, they can update their qualifications though</div>
 </div>
 
 	<script type="text/javascript" src="libraries/jquery-2.1.1.js"></script>

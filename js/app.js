@@ -56,6 +56,7 @@
 		}
 	}])
 
+
 	
 
 	app.controller('staff', ['$scope','$http','department','team', function($scope,$http,department,team) {
@@ -78,7 +79,6 @@
 	app.controller("showProfile", ['$scope','$http','$location','$filter','$cookies','staffDataFactory', function($scope, $http, $location, $filter, $cookies,staffDataFactory) {
 
 		$scope.readWrite = $cookies.readWrite;
-
 		console.log($scope.readWrite);
 
 		staffDataFactory.getSource().success(function(data) {
@@ -166,22 +166,23 @@
 	}]);
 
 	app.controller("readWrite", [ '$scope','$cookies','$http','currentUser', function($scope,$cookies,$http,currentUser) {
+
+		$scope.setReadWrite = function() {
+			if($scope.readWrite === "undefined" || $scope.readWrite === "Read") {
+				$cookies.readWrite = "Write";
+			} else {
+				$cookies.readWrite = "Read";
+			}						
+			$scope.readWrite = $cookies.readWrite;
+		}
+
 		currentUser.getUser().
 		success(function(data) {
 			data.details.permissions = parseInt(data.details.permissions);
 			if(data.details.permissions === 0) {
 				$scope.permissions = true;
-				$scope.setReadWrite = function() {
-					var readWrite = $cookies.readWrite;
-					if(readWrite === "undefined" || readWrite === "Read") {
-						$cookies.readWrite = "Write";
-					} else {
-						$cookies.readWrite = "Read";
-					}						
-
-					$scope.readWrite = $cookies.readWrite;
-
-				}
+				$scope.readWrite = $cookies.readWrite;
+				return $scope.setReadWrite;
 			} else {
 				$scope.permissions = false;
 			}		
@@ -282,9 +283,17 @@
 		})
 
 
-
+/*
         $scope.editDept = function(editField) {
         	console.log(editField);
+
+        	if($cookies.editField === "undefined" || $cookies.editField === editField) {
+        		alert("Field not changed")
+        	} else {
+        		//$cookies.editField = editField;
+        		alert("Field changed")
+        	}
+
 
 
 
@@ -320,18 +329,15 @@
     		}
         	
         }
-
+*/
 	}])
-
 
 	app.config(['$routeProvider',
 	  function($routeProvider) {
 	    $routeProvider.
 	      when('/staff/:_id', {
-	      	//put /qualifications after staffID and try and pull it back into the controller
 	        templateUrl: 'partials/profile.html',
 	        controller: 'showProfile'
-	        /* The templateURL here generates the second table */
 	      }).
 	      otherwise({
 	        redirectTo: ''

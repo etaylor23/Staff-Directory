@@ -12,12 +12,12 @@
 
 	<div ng-show="staff.details.qualifications">
 
-		<div ng-repeat='(key,staff) in staff.details.qualifications'>
-			<h2>{{staff.qualification.level}} 
+		<div ng-repeat='(key,staffChild) in staff.details.qualifications'>
+			<h2>{{staffChild.qualification.level}} 
 				<span ng-if="readWrite === 'Write'" ng-click="removeQualificationLevel($index)">[Remove]</span>
 			</h2>
 			<ul>
-				<li ng-repeat='(staffKey,qualification) in staff.qualification.name'>
+				<li ng-repeat='(staffKey,qualification) in staffChild.qualification.name'>
 					<span>{{qualification}}</span>
 					
 					<span ng-if="readWrite === 'Write'" ng-click="removeQualification($parent.staff._id,qualification,$index)">Remove</span>

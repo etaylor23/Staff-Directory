@@ -25,6 +25,19 @@ main {
     		width:50%;
     	}
     }
+
+    .personal-profile {
+        .personal {
+            .profile-image {
+                max-width: 50%;
+                float: left;
+                margin-right: 20px;
+                img {
+                    width:100%;
+                }
+            }
+        }
+    }
 }
 
 
