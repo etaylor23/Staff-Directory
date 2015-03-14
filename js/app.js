@@ -132,6 +132,7 @@
         $scope.removeQualification = function(qualificationLevelID,qualificationName,idx) {
         	console.log(qualificationLevelID);
         	console.log(qualificationName);
+        	debugger;
 
     		var qualificationData = {'qualificationName':qualificationName, "id":$scope.staff._id, 'qualificationLevelID':qualificationLevelID, editType:"remove"};
 
