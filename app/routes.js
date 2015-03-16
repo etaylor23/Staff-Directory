@@ -3,10 +3,39 @@ module.exports = function(app, passport) {
 
     var mongoose = require('mongoose')
     var models = require('./models/user');
+    var room = require('./models/room');
 
     var Qualification = models.qualification.model('Qualification');
     var User = models.user.model('User');
+    var Room = room.roomSchema.model('Room');
 
+
+    app.get('/room', function() {
+
+        var newRoom = new Room({
+            name : "Test",
+            number : "Test",
+            dateTime : Date.now(),
+            building    : "Test",
+            campus      : "Test",
+            addressLine1: "Test",
+            addressLine2: "Test",
+            addressLine3: "Test",
+            city        : "Test",
+            county      : "Test",
+            postCode    : "Test" 
+        })
+
+        newRoom.save(function(err,data) {
+            if(data) {
+                console.log("New room created: " + data);
+            } else {
+                console.log("New room failed to create: " + err);
+            }
+        })
+
+
+    })
 
     // =====================================
     // HOME PAGE (with login links) ========
