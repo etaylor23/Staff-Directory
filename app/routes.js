@@ -9,21 +9,23 @@ module.exports = function(app, passport) {
     var User = models.user.model('User');
     var Room = room.roomSchema.model('Room');
 
-
+/*
     app.get('/room', function() {
 
         var newRoom = new Room({
-            name : "Test",
-            number : "Test",
-            dateTime : Date.now(),
-            building    : "Test",
-            campus      : "Test",
-            addressLine1: "Test",
-            addressLine2: "Test",
-            addressLine3: "Test",
-            city        : "Test",
-            county      : "Test",
-            postCode    : "Test" 
+            name        : "Test 4",
+            number      : "Test 4",
+            //dateFrom    : Date.now(),
+            //dateTo      : Date.now(),
+            bookings    : [],
+            building    : "Test 4",
+            campus      : "Test 4",
+            addressLine1: "Test 4",
+            addressLine2: "Test 4",
+            addressLine3: "Test 4",
+            city        : "Test 4",
+            county      : "Test 4",
+            postCode    : "Test 4" 
         })
 
         newRoom.save(function(err,data) {
@@ -36,6 +38,7 @@ module.exports = function(app, passport) {
 
 
     })
+*/
 
     // =====================================
     // HOME PAGE (with login links) ========

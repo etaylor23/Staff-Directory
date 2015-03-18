@@ -333,6 +333,10 @@
 */
 	}])
 
+	app.controller("rooms", ["$scope", function($scope) {
+		
+	}])
+
 	app.config(['$routeProvider',
 	  function($routeProvider) {
 	    $routeProvider.

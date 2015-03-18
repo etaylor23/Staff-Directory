@@ -1,11 +1,17 @@
 var mongoose = require('mongoose');
 
+var Bookings = mongoose.Schema({
+    dateFrom        : Date,
+    dateTo          : Date,
+    bookingUserId   : String
+})
+
 
 var roomSchema = mongoose.Schema({
 
         name        : String,
         number      : String,
-        dateTime    : Date,
+        bookings    : [Bookings],
         building    : String,
         campus      : String,
         addressLine1: String,
@@ -14,15 +20,6 @@ var roomSchema = mongoose.Schema({
         city        : String,
         county      : String,
         postCode    : String 
-
-        /*firstname : String, 
-        surname   : String, 
-        dob       : Date, 
-        team      : String, 
-        department: String, 
-        image     : String,
-        permissions: String*/
-        //qualifications: [Qualifications] 
 
 });
 
