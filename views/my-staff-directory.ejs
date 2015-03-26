@@ -127,7 +127,34 @@
 		</div>
 
 		<div ng-controller="rooms">
-			
+			<form ng-submit="bookRoom(room)">
+				<input type="date" name="date" ng-model="room.date">
+				<input type="time" name="time" ng-model="room.time">
+				<input type="submit" value="Book time">
+			</form>
+
+
+			<div class="available-rooms box fifty-fifty">
+				<h2>Available Rooms</h2>
+				<ul>
+					<li ng-click="thisRoom(room._id)" ng-repeat="room in rooms">
+						{{room._id}}<br />
+						{{room.name}}<br />
+						{{room.number}}<br />
+						{{room.building}}<br />
+						{{room.campus}}<br />
+						{{room.addressLine1}}<br />
+						{{room.addressLine2}}<br />
+						{{room.addressLine3}}<br />
+						{{room.city}}<br />
+						{{room.county}}<br />
+						{{room.postCode}}<br />
+					</li>
+				</ul>
+			</div><!--
+			--><div class="your-rooms box fifty-fifty">
+				<h2>Your Rooms</h2>
+			</div>
 		</div>
 
 

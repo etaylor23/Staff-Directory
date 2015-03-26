@@ -55,6 +55,13 @@
 		    }
 		}
 	}])
+	app.factory('rooms',['$http', function($http) {
+		return {
+			getRooms : function() {
+				return $http.get('/rooms');
+			}
+		}
+	}])
 
 
 	
@@ -333,8 +340,21 @@
 */
 	}])
 
-	app.controller("rooms", ["$scope", function($scope) {
-		
+	app.controller("rooms", ["$scope","rooms", function($scope,rooms) {
+		rooms.getRooms().success(function(data) {
+			$scope.rooms = data;
+		})
+		$scope.thisRoom = function(selectedRoom) {
+			console.log(selectedRoom);
+		}
+		//runs when user clicks room, this could be used in conjunction with date to book a room
+
+		$scope.bookRoom = function(room) {
+			alert("Test");
+			console.log(room.date);
+			console.log(room.time);
+		}
+		//on submit runs get date and time object
 	}])
 
 	app.config(['$routeProvider',
