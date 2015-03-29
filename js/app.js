@@ -4,34 +4,11 @@
 	//create new angular module
 
 	app.factory('staffDataFactory', ['$http','$routeParams', function($http,$routeParams,$scope) {
-		
-	    /*var getSource = function($scope) {
-            $http.get(url).success(function(data) {
-                response(data);
-            });
-			$http.post('/staffData', {msg:$routeParams._id}).
-			success(function(data, status, headers, config) {
-				console.log("got staffData for this staff member");
-				$scope.staff = data;
-			}).
-			error(function() {
-				console.log("failed to get staffData for this staff member");
-			});
-	    }
-	    return getSource;
-
-		*
-		* This way can be used in conjunction with 'new staffDataFactory($scope);' in controller
-		*
-
-	    */
-
 		return {
 		    getSource : function() {
 		        return $http.post('/staffData', {msg:$routeParams._id})
 		    }
 		}
-
 	}]);
 
 	app.factory('department', ['$http',function($http) {
@@ -63,9 +40,6 @@
 		}
 	}])
 
-
-	
-
 	app.controller('staff', ['$scope','$http','department','team', function($scope,$http,department,team) {
 		$scope.profile = false;
 
@@ -80,8 +54,6 @@
 			console.log($scope.team);
 		})
 	}]);
-
-
 
 	app.controller("showProfile", ['$scope','$http','$location','$filter','$cookies','staffDataFactory', function($scope, $http, $location, $filter, $cookies,staffDataFactory) {
 
@@ -168,9 +140,6 @@
         		console.log("removeQualificationLevel failed to complete");
         	})
         }
-
-
-
 	}]);
 
 	app.controller("readWrite", [ '$scope','$cookies','$http','currentUser', function($scope,$cookies,$http,currentUser) {
@@ -270,13 +239,6 @@
 						console.log("Lose");
 					})
 		}
-
-
-
-
-
-		//write search on submit click and enter
-
  	}])
 
 	app.controller("currentUserProfile", ["$scope","$http","currentUser",function($scope, $http, currentUser) {
@@ -289,72 +251,6 @@
 			$scope.currentUserDetails = data;
 			console.log(data);
 		})
-
-
-/*
-        $scope.editDept = function(editField) {
-        	console.log(editField);
-
-        	if($cookies.editField === "undefined" || $cookies.editField === editField) {
-        		alert("Field not changed")
-        	} else {
-        		//$cookies.editField = editField;
-        		alert("Field changed")
-        	}
-
-
-
-
-        	if($scope.editValue === false && editField === "department") {
-        		$scope.updatedInstitutionArea = $scope.currentUserDetails.details.department;
-        		$scope.departmentInEdit = true;
-        		$scope.editValue = true;
-        		$scope.currentUserDetailsSelection = $scope.currentUserDetails.details.department;
-        	} else if ($scope.editValue === false && editField === "team") {
-        		$scope.updatedInstitutionArea = $scope.currentUserDetails.details.team;
-        		$scope.teamInEdit = true;
-        		$scope.editValue = true;  
-        		$scope.currentUserDetailsSelection = $scope.currentUserDetails.details.team;   		
-			} else {
-
-			}
-
-    		if($scope.updatedInstitutionArea !== undefined && $scope.updatedInstitutionArea !== $scope.currentUserDetailsSelection) {
-        		var institutionArea = { 'id':$scope.currentUserDetails._id, 'area':$scope.updatedInstitutionArea, 'editField':editField }	
-        		$http.post('/institution-area', institutionArea)
-        		.success(function(data) {
-          			$scope.editValue = false;
-          			if($scope.departmentInEdit === true) {
-        				$scope.currentUserDetails.details.department = data.details.department;
-          				$scope.departmentInEdit = false;
-          			} else {
-        				$scope.currentUserDetails.details.team = data.details.team;
-          				$scope.teamInEdit = false;
-          			}
-        		})
-    		} else {
-    			return false;
-    		}
-        	
-        }
-*/
-	}])
-
-	app.controller("rooms", ["$scope","rooms", function($scope,rooms) {
-		rooms.getRooms().success(function(data) {
-			$scope.rooms = data;
-		})
-		$scope.thisRoom = function(selectedRoom) {
-			console.log(selectedRoom);
-		}
-		//runs when user clicks room, this could be used in conjunction with date to book a room
-
-		$scope.bookRoom = function(room) {
-			alert("Test");
-			console.log(room.date);
-			console.log(room.time);
-		}
-		//on submit runs get date and time object
 	}])
 
 	app.config(['$routeProvider',

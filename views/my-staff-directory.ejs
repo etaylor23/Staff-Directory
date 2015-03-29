@@ -8,9 +8,7 @@
 <body>
 
 <div class="global-holder">
-
 	<header>
-
 		<div class="readWrite" ng-controller="readWrite">
 			<div ng-if="permissions === true">
 				<div class="mode">
@@ -31,16 +29,13 @@
 				      <input ng-change="typing()" ng-model="searchText" type="search" id="search" placeholder="Search..." />
 				  </div>
 				</div>
-
-
 				<div class="search-type-container">
 					<select ng-model="searchType" ng-change="alterSearchType()">
 						<option>Person</option>
 						<option>Team</option>
 						<option>Department</option>
 					</select>
-				</div>
-				
+				</div>	
 			</form>
 			<div class="results">
 				<div class="results-list">
@@ -56,9 +51,7 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
-		
 	</header>
 
 
@@ -74,22 +67,8 @@
 					<span class="dob">{{currentUserDetails.details.dob}}</span>
 				</div>
 				<div class="professional">
-					<!--<span>Your Team: </span>
-					<span ng-if="editValue === false" ng-click="editDept('team')">{{currentUserDetails.details.team}}</span>
-					<span ng-if="editValue === true && teamInEdit === true">
-						<input ng-blur="editDept('team')" type="text" ng-model="$parent.updatedInstitutionArea">
-						<span ng-bind="$parent.updatedInstitutionArea"></span>
-					</span><br />
-
-					<span>Your Department: </span>
-					<span ng-if="editValue === false" ng-click="editDept('department')">{{currentUserDetails.details.department}}</span>
-					<span ng-if="editValue === true && departmentInEdit === true">
-						<input ng-blur="editDept('department')" type="text" ng-model="$parent.updatedInstitutionArea">
-						<span ng-bind="$parent.updatedInstitutionArea"></span>
-					</span>-->
 					<div class="team">{{currentUserDetails.details.team}}</div>
 					<div class="department">{{currentUserDetails.details.department}}</div>
-
 				</div>
 			</div><!--
 			--><div class="academic box fifty-fifty">
@@ -101,10 +80,7 @@
 						<span>{{qualName}}</span>
 					</li>
 				</ul>
-			
-
 			</div>
-
 		</div>
 
 		<div ng-controller="staff">
@@ -125,38 +101,6 @@
 				</ul>
 			</div>
 		</div>
-
-		<div ng-controller="rooms">
-			<form ng-submit="bookRoom(room)">
-				<input type="date" name="date" ng-model="room.date">
-				<input type="time" name="time" ng-model="room.time">
-				<input type="submit" value="Book time">
-			</form>
-
-
-			<div class="available-rooms box fifty-fifty">
-				<h2>Available Rooms</h2>
-				<ul>
-					<li ng-click="thisRoom(room._id)" ng-repeat="room in rooms">
-						{{room._id}}<br />
-						{{room.name}}<br />
-						{{room.number}}<br />
-						{{room.building}}<br />
-						{{room.campus}}<br />
-						{{room.addressLine1}}<br />
-						{{room.addressLine2}}<br />
-						{{room.addressLine3}}<br />
-						{{room.city}}<br />
-						{{room.county}}<br />
-						{{room.postCode}}<br />
-					</li>
-				</ul>
-			</div><!--
-			--><div class="your-rooms box fifty-fifty">
-				<h2>Your Rooms</h2>
-			</div>
-		</div>
-
 
 		<div ng-controller="showProfile">
 			<div ng-view class="profile-holder"></div>

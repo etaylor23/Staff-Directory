@@ -3,41 +3,9 @@ module.exports = function(app, passport) {
 
     var mongoose = require('mongoose')
     var models = require('./models/user');
-    var room = require('./models/room');
 
     var Qualification = models.qualification.model('Qualification');
     var User = models.user.model('User');
-    var Room = room.roomSchema.model('Room');
-
-
-    app.get('/room', function() {
-
-        var newRoom = new Room({
-            name        : "Test 3",
-            number      : "Test 3",
-            //dateFrom    : Date.now(),
-            //dateTo      : Date.now(),
-            bookings    : [],
-            building    : "Test 3",
-            campus      : "Test 3",
-            addressLine1: "Test 3",
-            addressLine2: "Test 3",
-            addressLine3: "Test 3",
-            city        : "Test 3",
-            county      : "Test 3",
-            postCode    : "Test 3" 
-        })
-
-        newRoom.save(function(err,data) {
-            if(data) {
-                console.log("New room created: " + data);
-            } else {
-                console.log("New room failed to create: " + err);
-            }
-        })
-
-
-    })
 
 
     // =====================================
@@ -361,16 +329,6 @@ module.exports = function(app, passport) {
             )
         }
 
-    })
-
-    app.get('/rooms', function(req,res) {
-        Room.find(function(err,rooms) {
-            if(rooms) {
-                res.end(JSON.stringify(rooms));
-            } else {
-                console.log(err);
-            }
-        })
     })
 };
 
